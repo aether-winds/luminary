@@ -28,3 +28,6 @@ go.work.sum
 .idea/
 .vscode/
 coverage
+
+# Application Runtime Save Data
+*.save.json
