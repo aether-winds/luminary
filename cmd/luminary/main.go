@@ -21,7 +21,6 @@ func init() {
 	config = &ApplicationConfiguration{}
 	fs = http.FileServer(http.Dir("internal/assets"))
 	mux = http.NewServeMux()
-
 	routes = []t.Route{}
 }
 
