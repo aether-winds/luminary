@@ -3,35 +3,116 @@ package templates
 import (
 	"fmt"
 	"html/template"
+	"log"
+	"net/http"
+	"path"
 )
 
-type TemplateManagerConfiguration struct {
-}
+// ###
+// TemplateManager
 
 type TemplateManager interface {
 	Get(string) *template.Template
 	Register(string) error
+	ExecuteRootTemplate(w http.ResponseWriter, data RootTemplateData)
+	ExecuteError404Template(w http.ResponseWriter)
+	ExecuteError500Template(w http.ResponseWriter)
 }
 
 type templateManager struct {
 	TemplateManager
 	tmpl *template.Template
+	path string
+}
+
+func (tm *templateManager) ExecuteRootTemplate(w http.ResponseWriter, data RootTemplateData) {
+	tmpl := tm.Get("root.html")
+	if tmpl == nil {
+		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	tmpl.Execute(w, data)
+}
+
+func (tm *templateManager) ExecuteError404Template(w http.ResponseWriter) {
+	tmpl := tm.Get("error404.html")
+	if tmpl == nil {
+		http.Error(w, "404 Not Found", http.StatusNotFound)
+		return
+	}
+	tmpl.Execute(w, nil)
+}
+
+func (tm *templateManager) ExecuteError500Template(w http.ResponseWriter) {
+	tmpl := tm.Get("error500.html")
+	if tmpl == nil {
+		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	tmpl.Execute(w, nil)
 }
 
 func (tm *templateManager) Get(name string) *template.Template {
-	return tm.tmpl.Lookup(name)
+	tmpl := tm.tmpl.Lookup(name)
+	if tmpl == nil {
+		log.Printf("template %s not found", name)
+		return nil
+	}
+	return tmpl
 }
 
-func (tm *templateManager) Register(filename string) error {
-	if _, err := tm.tmpl.ParseFiles(filename); err != nil {
-		return fmt.Errorf("unable to parse template file %s: %w", filename, err)
+func (tm *templateManager) Register(filepath string) error {
+	fullPath := path.Join(tm.path, filepath)
+
+	if _, err := tm.tmpl.ParseFiles(fullPath); err != nil {
+		return fmt.Errorf("unable to parse template file %s: %w", filepath, err)
 	}
+
 	return nil
 }
 
-func NewTemplateManager() TemplateManager {
-	instance := &templateManager{tmpl: template.New("luminary")}
-	instance.Register("./common/root.html")
+// ###
+// Constructor methods
+
+type TemplateManagerOptionFunc func(*templateManager)
+
+func NewTemplateManager(opts ...TemplateManagerOptionFunc) TemplateManager {
+	var err error
+
+	instance := &templateManager{
+		tmpl: template.New("luminary"),
+		path: path.Join("internal", "templates", "html"),
+	}
+
+	// Register these templates before the calling package can change the template path.
+	// This way, we can insure that the root and error templates are always available to all packages.
+	if err = instance.Register("root.html"); err != nil {
+		log.Fatalf("failed to register root.html: %v", err)
+	}
+	if err = instance.Register("error404.html"); err != nil {
+		log.Fatalf("failed to register error404.html: %v", err)
+	}
+
+	for _, opt := range opts {
+		opt(instance)
+	}
 
 	return instance
+}
+
+func WithTemplateDirectory(directory string) TemplateManagerOptionFunc {
+	return func(tm *templateManager) {
+		if directory == "" {
+			tm.path = path.Join("internal", "templates", "html")
+		} else {
+			tm.path = directory
+		}
+	}
+}
+
+// ###
+// Template data
+type RootTemplateData struct {
+	Title string
+	Path  string
 }
