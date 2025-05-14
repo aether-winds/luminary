@@ -20,10 +20,12 @@ func TestTemplateManager(t *testing.T) {
 
 	t.Run("should register a given template", func(t *testing.T) {
 		manager := templates.NewTemplateManager()
+
 		err := manager.Register("./test/my-template.html")
 		if err != nil {
 			t.Errorf("unexpected error registering template: %v", err)
 		}
+
 		tmpl := manager.Get("my-template")
 		if tmpl == nil {
 			t.Errorf("expected my-template.html to be registered, got nil")
@@ -61,12 +63,20 @@ func TestTemplateManager(t *testing.T) {
 			t.Errorf("expected my-template to be registered, got nil")
 		}
 
-		err = tmpl.Execute(w, struct{ Name string }{"Test"})
+		err = tmpl.Execute(w, struct {
+			Test  string
+			Title string
+			Name  string
+		}{
+			"Test",
+			"Hello, Test!",
+			"World!",
+		})
 		if err != nil {
 			t.Errorf("unexpected error executing template: %v", err)
 		}
 
-		expectedOutput := "<h1>Hello, Test!</h1>"
+		expectedOutput := "<h1>Hello, World!</h1>"
 		if w.Body.String() != expectedOutput {
 			t.Errorf("expected output to be %q, got %q", expectedOutput, w.Body.String())
 		}

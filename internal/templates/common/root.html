@@ -10,7 +10,9 @@
         <script src="/assets/scripts.js"></script>
     </head>
     <body>
-        {{ template "document-body" .}}
+        {{ block "header" . }}{{ end }}
+        {{ block "content" . }}{{ end }}
+        {{ block "footer" . }}{{ end }}
     </body>
 </html>
 {{ end }}
