@@ -24,6 +24,7 @@ func GetRoutes() []types.Route {
 			Handler: func(w http.ResponseWriter, r *http.Request) {
 				if r.URL.Path != "/" {
 					tm.ExecuteError404Template(w)
+					return
 				}
 
 				tmpl := tm.Get("index.html")

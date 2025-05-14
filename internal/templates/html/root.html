@@ -6,7 +6,7 @@
         <title>{{ .Title }}</title>
         <link rel="stylesheet" href="/assets/styles.css">
         <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-        <script src="/assets/scripts.js"></script>
+        <script src="/assets/scripts.mjs"></script>
     </head>
     <body>
         <main hx-get="{{ .Path }}" hx-swap="outerHTML" hx-trigger="load"></main>
