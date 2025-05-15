@@ -13,7 +13,7 @@ import (
 
 type TemplateManager interface {
 	Get(string) *template.Template
-	Register(string) error
+	Register(string)
 	ExecuteRootTemplate(w http.ResponseWriter, data RootTemplateData)
 	ExecuteError404Template(w http.ResponseWriter)
 	ExecuteError500Template(w http.ResponseWriter)
@@ -61,14 +61,12 @@ func (tm *templateManager) Get(name string) *template.Template {
 	return tmpl
 }
 
-func (tm *templateManager) Register(filepath string) error {
+func (tm *templateManager) Register(filepath string) {
 	fullPath := path.Join(tm.path, filepath)
 
 	if _, err := tm.tmpl.ParseFiles(fullPath); err != nil {
-		return fmt.Errorf("unable to parse template file %s: %w", filepath, err)
+		log.Fatal(fmt.Errorf("unable to parse template file %s: %w", filepath, err))
 	}
-
-	return nil
 }
 
 // ###
@@ -77,8 +75,6 @@ func (tm *templateManager) Register(filepath string) error {
 type TemplateManagerOptionFunc func(*templateManager)
 
 func NewTemplateManager(opts ...TemplateManagerOptionFunc) TemplateManager {
-	var err error
-
 	instance := &templateManager{
 		tmpl: template.New("luminary"),
 		path: path.Join("internal", "templates", "html"),
@@ -86,12 +82,8 @@ func NewTemplateManager(opts ...TemplateManagerOptionFunc) TemplateManager {
 
 	// Register these templates before the calling package can change the template path.
 	// This way, we can insure that the root and error templates are always available to all packages.
-	if err = instance.Register("root.html"); err != nil {
-		log.Fatalf("failed to register root.html: %v", err)
-	}
-	if err = instance.Register("error404.html"); err != nil {
-		log.Fatalf("failed to register error404.html: %v", err)
-	}
+	instance.Register("root.html")
+	instance.Register("error404.html")
 
 	for _, opt := range opts {
 		opt(instance)

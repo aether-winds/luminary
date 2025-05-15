@@ -1,0 +1,92 @@
+:root {
+    /* Notes in this section are for my immediate reference,
+    but originated from http://colormind.io/bootstrap/.
+    Please credit the original author of the tool. */
+
+    /* Use this color as the background for your dark-on-light 
+    designs, or the text color of an inverted design. */
+    --color-light-shade: #f0ecec;
+
+    /* Accent colors can be used to bring attention to design 
+    elements by contrasting with the rest of the palette. */
+    --color-light-accent: #b4ad55;
+
+    /* This color should be eye-catching but not harsh. It 
+    can be liberally applied to your layout as its main 
+    identity. */
+    --color-brand-color: #8da095;
+
+    /* Another accent color to consider. Not all colors have
+    to be used - sometimes a simple color scheme works best. */
+    --color-dark-accent: #72685e;
+
+    /* Use as the text color for dark-on-light designs, or
+    as the background for inverted designs. */
+    --color-dark-shade: #364a44;
+}
+
+html {
+    color-scheme: light dark;
+    font-family: system-ui;
+    font-size: 15px;
+}
+
+body {
+    background-color: var(--color-dark-shade);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+}
+
+.card {
+    --adjust-unit: 20px;
+
+    background-color: var(--color-light-shade);
+    color: var(--color-dark-shade);
+    border-radius: calc(var(--adjust-unit) / 2);
+    box-shadow: 0 calc(var(--adjust-unit) / 4) calc(var(--adjust-unit) / 2) rgba(0, 0, 0, 0.1);
+    padding: var(--adjust-unit);
+    margin: var(--adjust-unit);
+    margin-top: calc(var(--adjust-unit) * 2);
+    max-width: 30vw;
+
+    header {
+        background-color: var(--color-dark-accent);
+        color: var(--color-light-shade);
+        font-size: 18px;
+        padding: calc(var(--adjust-unit) / 2);
+        border-radius: calc(var(--adjust-unit) / 2);
+        position: relative;
+        top: calc(var(--adjust-unit) * -2);;
+        left: calc(var(--adjust-unit) * -2);;
+        margin-bottom: calc(var(--adjust-unit) * -2);
+    }
+}
+
+.color-sample {
+    width: 100px;
+    aspect-ratio: 1;
+    display: inline-block;
+    margin: 5px;
+    border: 1px solid var(--color-dark-accent);
+    place-items: bottom right;
+
+    &.light-shade {
+        background-color: var(--color-light-shade);
+    }
+
+    &.secondary-bg {
+        background-color: var(--color-secondary-background);
+    }
+
+    &.primary-text {
+        background-color: var(--color-primary-text);
+    }
+
+    &.secondary-text {
+        background-color: var(--color-secondary-text);
+    }
+}

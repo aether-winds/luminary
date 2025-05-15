@@ -1,7 +1,6 @@
 package index
 
 import (
-	"log"
 	"net/http"
 	"path"
 
@@ -9,15 +8,16 @@ import (
 	"github.com/aether-winds/luminary/internal/types"
 )
 
-func GetRoutes() []types.Route {
+var tm templates.TemplateManager
+
+func init() {
 	tm := templates.NewTemplateManager(
 		templates.WithTemplateDirectory(path.Join("internal", "components", "index")),
 	)
-	err := tm.Register(path.Join("index.html"))
-	if err != nil {
-		log.Fatalf("failed to register index.html: %v", err)
-	}
+	tm.Register(path.Join("index.html"))
+}
 
+func GetRoutes() []types.Route {
 	return []types.Route{
 		{
 			Pattern: "GET /",
