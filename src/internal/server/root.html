@@ -1,0 +1,30 @@
+{{ define "root" }}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Luminary - Org Task Tracking</title>
+
+        <meta name="htmx-config" content='{ "inlineScriptNonce": "{{ .Nonce }}", "inlineStyleNonce": "{{ .Nonce }}" }'>
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" nonce="{{ .Nonce }}">
+        <link rel="preconnect" href="https://fonts.gstatic.com" nonce="{{ .Nonce }}" crossorigin>
+        <link nonce="{{ .Nonce }}" href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="/static/styles.css" nonce="{{ .Nonce }}" />
+        <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous" nonce="{{ .Nonce }}"></script>
+    </head>
+    <body>
+        <header class="main-header">
+            <a href="/" class="app-logo">Luminary</a>
+        </header>
+        <main>
+            {{ block "content" . -}}
+                <p>Hello World!</p>
+            {{- end }}
+        </main>
+    </body>
+</html>
+{{ end }}
