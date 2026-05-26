@@ -81,7 +81,7 @@ Existing component libraries can impose framework lock-in, large bundles, or com
   - Corresponding JS properties where applicable
   - Named/custom events
   - Supported slots
-  - CSS custom properties with lum prefix
+  - CSS custom properties using the `--lum-` prefix
 - Attribute changes must reactively update UI state.
 
 ### Events
