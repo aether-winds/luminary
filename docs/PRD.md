@@ -86,7 +86,7 @@ Existing component libraries can impose framework lock-in, large bundles, or com
 
 ### Events
 
-- Interactive components must dispatch semantic custom events where needed (for example change, open, close, select).
+- Interactive components must dispatch semantic custom events where needed (for example: change, open, close, select).
 - Event payloads must be documented and stable.
 - Events should bubble and be composed when integration across shadow boundaries is expected.
 
