@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luminary Playground</title>
+    <style>
+      :root {
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        color: #102a27;
+        background: radial-gradient(circle at top, #e6f5f3, #f8fbfb 58%);
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+      }
+
+      main {
+        width: min(680px, 90vw);
+        background: #ffffff;
+        border: 1px solid #d3e7e3;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 14px 32px rgba(16, 42, 39, 0.09);
+      }
+
+      h1 {
+        margin-top: 0;
+        margin-bottom: 0.65rem;
+        font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      }
+
+      .row {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      #log {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #0f3f39;
+        min-height: 1.4rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Luminary Component Playground</h1>
+      <p>Use the starter button component and watch event output below.</p>
+      <div class="row">
+        <lum-button id="saveBtn" label="Save changes"></lum-button>
+        <lum-button variant="secondary" label="Cancel"></lum-button>
+      </div>
+      <p id="log">No interactions yet.</p>
+    </main>
+
+    <script type="module">
+      import { registerAllComponents } from "../src/index.js";
+
+      registerAllComponents();
+
+      const log = document.querySelector("#log");
+      document.querySelector("#saveBtn").addEventListener("lum-button-click", (event) => {
+        log.textContent = `Event: ${event.type}, label=${event.detail.label}, variant=${event.detail.variant}`;
+      });
+    </script>
+  </body>
+</html>

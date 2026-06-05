@@ -101,6 +101,9 @@ dist
 # vitepress build output
 **/.vitepress/dist
 
+# Luminary example preview build output
+examples-dist/
+
 # vitepress cache directory
 **/.vitepress/cache
 

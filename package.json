@@ -1,0 +1,42 @@
+{
+  "name": "@aether-winds/luminary",
+  "version": "0.1.0",
+  "description": "A lightweight, dependency-free web component library.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aether-winds/luminary.git"
+  },
+  "main": "./dist/luminary.cjs.js",
+  "module": "./dist/luminary.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/luminary.esm.js",
+      "require": "./dist/luminary.cjs.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vite --config vite.examples.config.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "build": "vite build",
+    "build:examples": "vite build --config vite.examples.config.js",
+    "preview": "npm run build && npm run build:examples && vite preview --config vite.examples.config.js --host",
+    "verify:package": "sh ./scripts/verify-package.sh",
+    "release:prepare": "sh ./scripts/release-prepare.sh"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.0",
+    "safer-buffer": "^2.1.2",
+    "vite": "^5.4.10",
+    "vitest": "^2.1.8"
+  }
+}
