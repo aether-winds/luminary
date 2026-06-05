@@ -212,7 +212,7 @@ export default class LumButton extends HTMLElement {
           color: var(--lum-button-bg);
         }
       </style>
-      <button ${disabled ? "disabled" : ""} part="button">
+      <button type="button" ${disabled ? "disabled" : ""} part="button">
         <slot></slot>
       </button>
     `;
