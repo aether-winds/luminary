@@ -90,7 +90,7 @@ Directory responsibilities:
 Script execution policy:
 
 - All project task entry points must be defined in package.json under scripts.
-- Contributors and CI should run tasks with npm run [script-name].
+- Contributors and CI should run tasks with `npm run <script-name>`.
 - Files in scripts/ are implementation details and are not intended to be executed directly.
 
 ## 5. Component Authoring Standards
