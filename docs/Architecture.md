@@ -298,9 +298,8 @@ Recommended package scripts:
     "build": "vite build",
     "preview": "vite preview",
     "test": "web-test-runner",
-    "verify:package": "./scripts/verify-package.sh",
-    "release:prepare": "./scripts/release.sh"
-  }
+    "verify:package": "bash ./scripts/verify-package.sh",
+    "release:prepare": "bash ./scripts/release.sh"
 }
 ```
 
