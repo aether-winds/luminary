@@ -65,13 +65,13 @@ luminary/
 │   └── *.css (if emitted)
 ├── examples/
 │   ├── index.html
-│   └── playground/
+│   └── demos/
 ├── scripts/
 │   ├── release.sh
 │   └── verify-package.sh
 ├── docs/
 │   ├── PRD.md
-│   └── Engineering-Architecture-Document.md
+│   └── Architecture.md
 ├── .editorconfig
 ├── package.json
 ├── vite.config.js
@@ -84,8 +84,14 @@ Directory responsibilities:
 - src/components/: Source of truth, one file per component.
 - dist/: Build outputs only, generated artifacts.
 - examples/: Local demos and manual QA playground.
-- scripts/: Repeatable helper scripts for verification and release.
+- scripts/: Internal helper scripts invoked only via package.json scripts (not run directly).
 - docs/: Product and engineering documentation.
+
+Script execution policy:
+
+- All project task entry points must be defined in package.json under scripts.
+- Contributors and CI should run tasks with npm run [script-name].
+- Files in scripts/ are implementation details and are not intended to be executed directly.
 
 ## 5. Component Authoring Standards
 
@@ -277,6 +283,33 @@ Example token naming:
 - Main entry file (for example src/index.js) imports and registers all shipped components.
 - Optional per-component entry points can be added later for tree-shaking.
 
+Setup guidance:
+
+1. Create src/index.js and export/register the public components from that entry.
+2. Add Vite as a dev dependency and place the config in vite.config.js.
+3. Add standard package scripts so contributors can run the expected workflow.
+
+Recommended package scripts:
+
+```json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "web-test-runner",
+    "verify:package": "./scripts/verify-package.sh",
+    "release:prepare": "./scripts/release.sh"
+  }
+}
+```
+
+Script design guidance:
+
+- Human-facing command names belong in package.json scripts.
+- package.json scripts may call scripts/* helpers as internal implementation.
+- CI jobs should call npm run commands instead of executing scripts/* paths directly.
+
 ### 7.3 Proposed Vite configuration
 
 ```js
@@ -347,11 +380,18 @@ Example files array:
 
 1. Ensure branch is merged to main.
 2. Run clean install and verification checks.
-3. Run test suite and build.
+3. Run test suite and build via npm scripts.
 4. Bump semantic version (patch/minor/major).
 5. Update changelog and release notes.
 6. Publish to npm.
 7. Push git tag and publish GitHub release.
+
+Required release commands:
+
+1. npm run verify:package
+2. npm run test
+3. npm run build
+4. npm run release:prepare
 
 ### 8.3 Versioning policy
 
@@ -448,6 +488,7 @@ On each pull request:
 - npm run lint (if configured)
 - npm test
 - npm run build
+- npm run verify:package
 - Upload build artifacts (optional)
 
 ### 11.3 Release pipeline
@@ -455,7 +496,7 @@ On each pull request:
 On version tag or workflow_dispatch:
 
 - Re-run test and build gates
-- Run package verification script
+- Run package verification through npm run verify:package
 - Publish to npm (token from repository secrets)
 - Create GitHub release notes
 
