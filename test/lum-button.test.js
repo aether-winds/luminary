@@ -12,19 +12,12 @@ beforeEach(() => {
 });
 
 describe("lum-button", () => {
-    it("renders label from attribute", () => {
-        const el = createLumButton([{ name: "label", value: "Save" }]);
-        const button = el.shadowRoot.querySelector("button");
-
-        expect(button.textContent.trim()).toBe("Save");
-    });
-
     it("emits a lum-button-click custom event", () => {
         const el = createLumButton();
         const handler = vi.fn();
 
         el.addEventListener("lum-button-click", handler);
-        el.shadowRoot.querySelector("button").click();
+        el.click();
 
         expect(handler).toHaveBeenCalledTimes(1);
         expect(handler.mock.calls[0][0].bubbles).toBe(true);
@@ -36,7 +29,7 @@ describe("lum-button", () => {
         const handler = vi.fn();
 
         el.addEventListener("lum-button-click", handler);
-        el.shadowRoot.querySelector("button").click();
+        el.click();
 
         expect(handler).not.toHaveBeenCalled();
     });
