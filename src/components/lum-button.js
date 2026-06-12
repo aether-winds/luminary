@@ -75,7 +75,7 @@ export default class LumButton extends HTMLElement {
     }
 
     click() {
-        this.#shadowRoot.querySelector("button").click();
+        this.#shadowRoot.querySelector("button")?.click();
     }
 
     _onButtonClick(event) {
