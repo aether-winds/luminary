@@ -13,7 +13,7 @@
   "exports": {
     ".": {
       "import": "./dist/luminary.esm.js",
-      "require": "./dist/luminary.cjs.js"
+      "require": "./dist/luminary.cjs.cjs"
     }
   },
   "files": [

@@ -14,7 +14,7 @@ export default defineConfig({
           return "luminary.esm.js";
         }
         if (format === "cjs") {
-          return "luminary.cjs.js";
+          return "luminary.cjs.cjs";
         }
         return "luminary.iife.js";
       }

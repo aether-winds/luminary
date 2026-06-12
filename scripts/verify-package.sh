@@ -30,7 +30,7 @@ const required = [
   "README.md",
   "LICENSE",
   "dist/luminary.esm.js",
-  "dist/luminary.cjs.js",
+  "dist/luminary.cjs.cjs",
   "dist/luminary.iife.js"
 ];
 const missing = required.filter((name) => !files.has(name));
