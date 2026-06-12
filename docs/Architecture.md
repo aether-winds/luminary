@@ -212,7 +212,7 @@ export default class LumButton extends HTMLElement {
           color: var(--lum-button-bg);
         }
       </style>
-      <button type="button" ${disabled ? "disabled" : ""} part="button">
+      <button type="button" ${disabled ? "disabled" : ""}>
         <slot></slot>
       </button>
     `;
@@ -254,13 +254,22 @@ customElements.define("lum-button", LumButton);
 - All component styles live in shadow root style blocks.
 - Public theming hooks are CSS custom properties prefixed with --lum-.
 - Avoid exposing internal class names as external contracts.
-- Use part attributes for intentional styling extension points.
+- CSS custom properties are the default and preferred public styling API.
+- Do not expose part attributes as a standard customization contract in v1.
+- part may be added only as an explicit exception when a required styling use case cannot be covered by documented tokens.
 
 Theming conventions:
 
 - Component token names follow --lum-{component}-{token}.
 - Provide sensible defaults inside :host.
 - Document every theming token in component docs.
+- Tokens should map to semantic design decisions (for example: surface, text, border, radius, spacing) instead of implementation-only internals.
+
+part exception policy:
+
+- Any part usage must be justified in component documentation with the unmet use case.
+- If a part is introduced, document it as an advanced, non-default extension point.
+- Prefer adding or refining tokens before introducing any part exposure.
 
 Example token naming:
 

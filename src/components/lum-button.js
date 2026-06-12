@@ -17,19 +17,21 @@
  * - --lum-button-radius
  */
 export default class LumButton extends HTMLElement {
+    #shadowRoot;
+
     static get observedAttributes() {
         return ["label", "disabled", "variant"];
     }
 
     constructor() {
         super();
-        this.attachShadow({ mode: "open" });
+        this.#shadowRoot = this.attachShadow({ mode: "closed" });
         this._onButtonClick = this._onButtonClick.bind(this);
     }
 
     connectedCallback() {
         this._render();
-        this._button = this.shadowRoot.querySelector("button");
+        this._button = this.#shadowRoot.querySelector("button");
         this._button.addEventListener("click", this._onButtonClick);
     }
 
@@ -42,7 +44,7 @@ export default class LumButton extends HTMLElement {
     attributeChangedCallback() {
         this._render();
         if (this.isConnected) {
-            this._button = this.shadowRoot.querySelector("button");
+            this._button = this.#shadowRoot.querySelector("button");
             this._button.removeEventListener("click", this._onButtonClick);
             this._button.addEventListener("click", this._onButtonClick);
         }
@@ -94,7 +96,7 @@ export default class LumButton extends HTMLElement {
                 : "primary";
         const disabled = this.disabled ? "disabled" : "";
 
-        this.shadowRoot.innerHTML = `
+        this.#shadowRoot.innerHTML = `
       <style>
         :host {
           display: inline-block;

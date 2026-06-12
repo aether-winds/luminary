@@ -46,6 +46,11 @@
         color: #0f3f39;
         min-height: 1.4rem;
       }
+
+      .red {
+        --lum-button-bg: #ff4d4d;
+        --lum-button-bg-hover: #ff1a1a;
+      }
     </style>
   </head>
   <body>
@@ -55,18 +60,25 @@
       <div class="row">
         <lum-button id="saveBtn" label="Save changes"></lum-button>
         <lum-button variant="secondary" label="Cancel"></lum-button>
+        <lum-button id="disabler">Hello World!</lum-button>
+        <lum-button class="red" id="disablee">
+            <div style="color:cyan">Click me!</div>
+            <div style="color:blue">Woohoo!!</div>
+        </lum-button>
       </div>
       <p id="log">No interactions yet.</p>
     </main>
 
     <script type="module">
-      import { registerAllComponents } from "../src/index.js";
-
-      registerAllComponents();
-
+      import "../src/index.js";
       const log = document.querySelector("#log");
-      document.querySelector("#saveBtn").addEventListener("lum-button-click", (event) => {
+
+      document.querySelector("body").addEventListener("lum-button-click", (event) => {
         log.textContent = `Event: ${event.type}, label=${event.detail.label}, variant=${event.detail.variant}`;
+      });
+
+      document.querySelector("#disabler").addEventListener("lum-button-click", (event) => {
+        document.querySelector("#disablee").disabled = !document.querySelector("#disablee")?.disabled;
       });
     </script>
   </body>
