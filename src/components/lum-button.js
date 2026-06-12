@@ -141,3 +141,5 @@ export default class LumButton extends HTMLElement {
     `;
     }
 }
+
+customElements.define("lum-button", LumButton);
