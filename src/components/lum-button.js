@@ -17,81 +17,84 @@
  * - --lum-button-radius
  */
 export default class LumButton extends HTMLElement {
-  static get observedAttributes() {
-    return ["label", "disabled", "variant"];
-  }
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
-    this._onButtonClick = this._onButtonClick.bind(this);
-  }
-
-  connectedCallback() {
-    this._render();
-    this._button = this.shadowRoot.querySelector("button");
-    this._button.addEventListener("click", this._onButtonClick);
-  }
-
-  disconnectedCallback() {
-    if (this._button) {
-      this._button.removeEventListener("click", this._onButtonClick);
-    }
-  }
-
-  attributeChangedCallback() {
-    this._render();
-    if (this.isConnected) {
-      this._button = this.shadowRoot.querySelector("button");
-      this._button.removeEventListener("click", this._onButtonClick);
-      this._button.addEventListener("click", this._onButtonClick);
-    }
-  }
-
-  get label() {
-    return this.getAttribute("label") || "Button";
-  }
-
-  set label(value) {
-    this.setAttribute("label", value);
-  }
-
-  get disabled() {
-    return this.hasAttribute("disabled");
-  }
-
-  set disabled(value) {
-    if (value) {
-      this.setAttribute("disabled", "");
-    } else {
-      this.removeAttribute("disabled");
-    }
-  }
-
-  _onButtonClick(event) {
-    if (this.disabled) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
+    static get observedAttributes() {
+        return ["label", "disabled", "variant"];
     }
 
-    this.dispatchEvent(
-      new CustomEvent("lum-button-click", {
-        bubbles: true,
-        composed: true,
-        detail: {
-          label: this.label,
-          variant: this.getAttribute("variant") || "primary"
+    constructor() {
+        super();
+        this.attachShadow({ mode: "open" });
+        this._onButtonClick = this._onButtonClick.bind(this);
+    }
+
+    connectedCallback() {
+        this._render();
+        this._button = this.shadowRoot.querySelector("button");
+        this._button.addEventListener("click", this._onButtonClick);
+    }
+
+    disconnectedCallback() {
+        if (this._button) {
+            this._button.removeEventListener("click", this._onButtonClick);
         }
-      })
-    );
-  }
+    }
 
-  _render() {
-    const variant = this.getAttribute("variant") === "secondary" ? "secondary" : "primary";
-    const disabled = this.disabled ? "disabled" : "";
+    attributeChangedCallback() {
+        this._render();
+        if (this.isConnected) {
+            this._button = this.shadowRoot.querySelector("button");
+            this._button.removeEventListener("click", this._onButtonClick);
+            this._button.addEventListener("click", this._onButtonClick);
+        }
+    }
 
-    this.shadowRoot.innerHTML = `
+    get label() {
+        return this.getAttribute("label") || "Button";
+    }
+
+    set label(value) {
+        this.setAttribute("label", value);
+    }
+
+    get disabled() {
+        return this.hasAttribute("disabled");
+    }
+
+    set disabled(value) {
+        if (value) {
+            this.setAttribute("disabled", "");
+        } else {
+            this.removeAttribute("disabled");
+        }
+    }
+
+    _onButtonClick(event) {
+        if (this.disabled) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        }
+
+        this.dispatchEvent(
+            new CustomEvent("lum-button-click", {
+                bubbles: true,
+                composed: true,
+                detail: {
+                    label: this.label,
+                    variant: this.getAttribute("variant") || "primary",
+                },
+            }),
+        );
+    }
+
+    _render() {
+        const variant =
+            this.getAttribute("variant") === "secondary"
+                ? "secondary"
+                : "primary";
+        const disabled = this.disabled ? "disabled" : "";
+
+        this.shadowRoot.innerHTML = `
       <style>
         :host {
           display: inline-block;
@@ -136,5 +139,5 @@ export default class LumButton extends HTMLElement {
         <slot>${this.label}</slot>
       </button>
     `;
-  }
+    }
 }
