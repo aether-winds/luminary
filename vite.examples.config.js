@@ -1,7 +1,7 @@
-const { resolve } = require("node:path");
-const { defineConfig } = require("vite");
+import { resolve } from "node:path";
+import { defineConfig } from "vite";
 
-module.exports = defineConfig({
+export default defineConfig({
   root: resolve(__dirname, "examples"),
   publicDir: false,
   build: {

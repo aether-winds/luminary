@@ -2,6 +2,7 @@
   "name": "@aether-winds/luminary",
   "version": "0.1.0",
   "description": "A lightweight, dependency-free web component library.",
+  "type": "module",
   "license": "MIT",
   "repository": {
     "type": "git",
