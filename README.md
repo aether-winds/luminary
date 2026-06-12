@@ -56,7 +56,5 @@ import "@aether-winds/luminary";
 
 - `npm run dev`: Serve the example app.
 - `npm run test`: Run Vitest unit tests.
-- `npm run build`: Build ESM, CJS, and IIFE library bundles to `dist/`.
-- `npm run preview`: Build and preview the example app with the built library.
-- `npm run verify:package`: Verify package metadata and publish contents.
+- `npm run preview`: Build and preview the example app.
 - `npm run release:prepare`: Run release-readiness checks.
