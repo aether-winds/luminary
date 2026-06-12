@@ -29,9 +29,7 @@ npm run release:prepare
 ## Usage
 
 ```js
-import { registerAllComponents } from "@aether-winds/luminary";
-
-registerAllComponents();
+import "@aether-winds/luminary";
 ```
 
 ```html
