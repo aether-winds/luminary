@@ -29,7 +29,7 @@ export default class LumButton extends HTMLElement {
 
     constructor() {
         super();
-        this.#shadowRoot = this.attachShadow({ mode: "closed" });
+        this.#shadowRoot = this.attachShadow({ mode: "open" });
         this._onButtonClick = this._onButtonClick.bind(this);
     }
 
