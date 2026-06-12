@@ -2,19 +2,23 @@
  * Luminary button web component.
  *
  * Tag: <lum-button>
+ *
  * Attributes:
- * - label: Fallback button label text when no slotted content is provided.
- * - disabled: Disables click and keyboard interaction when present.
- * - variant: Visual style variant ("primary" | "secondary").
+ *  - label: Fallback button label text when no slotted content is provided.
+ *  - disabled: Disables click and keyboard interaction when present.
+ *  - variant: Visual style variant ("primary" | "secondary").
+ *
  * Slots:
- * - default: Optional button content.
+ *  - default: Optional button content.
+ *
  * Events:
- * - lum-button-click: Fired when the control is activated by the user.
+ *  - lum-button-click: Fired when the control is activated by the user.
+ *
  * Tokens:
- * - --lum-button-bg
- * - --lum-button-bg-hover
- * - --lum-button-fg
- * - --lum-button-radius
+ *  - --lum-button-bg
+ *  - --lum-button-bg-hover
+ *  - --lum-button-fg
+ *  - --lum-button-radius
  */
 export default class LumButton extends HTMLElement {
     #shadowRoot;

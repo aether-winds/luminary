@@ -1,8 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-npm run verify:package
 npm run test
-npm run build
+npm run verify:package
 
 echo "Release preparation checks completed."
