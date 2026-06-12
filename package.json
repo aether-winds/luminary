@@ -8,13 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/aether-winds/luminary.git"
   },
-  "main": "./dist/luminary.cjs.js",
-  "module": "./dist/luminary.esm.js",
-  "exports": {
-    ".": {
-      "import": "./dist/luminary.esm.js",
-      "require": "./dist/luminary.cjs.cjs"
-    }
+  "main": "./dist/luminary.cjs.cjs",
   },
   "files": [
     "dist",
