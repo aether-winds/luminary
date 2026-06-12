@@ -91,7 +91,8 @@ export default class LumButton extends HTMLElement {
                 composed: true,
                 detail: {
                     label: this.label,
-                    variant: this.getAttribute("variant") || "primary",
+                    variant:
+                        this.getAttribute("variant") === "secondary" ? "secondary" : "primary",
                 },
             }),
         );
