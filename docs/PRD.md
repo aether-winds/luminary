@@ -52,9 +52,10 @@ Existing component libraries can impose framework lock-in, large bundles, or com
 
 - Deliver an initial set of production-ready, dependency-free web components.
 - Define consistent component API conventions for attributes, properties, events, and slots.
+- Define a reusable inheritance model with a shared base element and component-specific variants.
 - Ensure accessibility and keyboard support are first-class requirements.
 - Support modern evergreen browsers with documented compatibility expectations.
-- Establish a clear distribution and NPM publishing workflow.
+- Establish a clear distribution workflow with publish automation deferred to GitHub pipelines.
 - Provide measurable adoption and quality outcomes.
 
 ## Non-Goals
@@ -62,7 +63,6 @@ Existing component libraries can impose framework lock-in, large bundles, or com
 - Framework-specific wrappers in v1 (React, Vue, Angular wrappers are out of scope for initial release).
 - Building a full visual design system for every product use case.
 - Supporting legacy browsers outside defined compatibility targets.
-- Providing TypeScript source code in v1 (JavaScript only).
 
 ## Functional Requirements
 
@@ -72,6 +72,8 @@ Existing component libraries can impose framework lock-in, large bundles, or com
 - Components must expose predictable states via attributes/properties (for example: disabled, variant, size).
 - Components must render sensible defaults when optional configuration is omitted.
 - Components must fail safely with invalid or missing input.
+- All components must inherit from a shared `LumElement` base class.
+- Alternative components must inherit from their primary component (for example: `LumCancelButton` extends `LumButton`).
 
 ### API Conventions
 
@@ -114,6 +116,8 @@ For each component, documentation must include:
 - Any approved part exceptions and rationale (only when used)
 - Accessibility notes
 
+Test files must be co-located with their component file and follow the `lum-*.test.ts` naming convention.
+
 ## Non-Functional Requirements
 
 ### Browser Support
@@ -142,6 +146,7 @@ For each component, documentation must include:
 - Public APIs must follow semantic versioning.
 - Breaking changes require migration notes.
 - Test coverage should prioritize core behaviors and accessibility-critical paths.
+- TypeScript is the source language for all components and library code.
 
 ## Initial Component Inventory (Proposed)
 
@@ -174,11 +179,11 @@ For each component, documentation must include:
 - lum-tooltip
 - lum-dropdown
 
-## Distribution and NPM Publishing Workflow
+## Distribution and Release Workflow
 
 ### Distribution Targets
 
-- Publish package to NPM as JavaScript library.
+- Maintain package-ready artifacts with publishing currently deferred.
 - Produce multiple build outputs via Vite library mode (for example ESM, CJS, and browser-ready build) as defined in architecture implementation.
 
 ### Packaging Requirements
@@ -187,14 +192,15 @@ For each component, documentation must include:
 - Include changelog/release notes process.
 - Include README usage and install guidance.
 
-### Publish Workflow (High-Level)
+### Release Workflow (High-Level)
 
 1. Merge validated changes to main branch.
 2. Run automated checks (tests, lint/build validation where applicable).
 3. Bump version based on semantic versioning.
 4. Generate or update release notes/changelog.
-5. Publish to NPM with scoped access configuration.
-6. Tag release in source control.
+5. Trigger GitHub release pipeline when governance is finalized.
+6. Publish artifact from CI only (no manual local publish flow).
+7. Tag release in source control.
 
 ## Success Metrics
 
