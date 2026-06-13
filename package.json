@@ -24,8 +24,7 @@
     "build": "vite build",
     "build:examples": "vite build --config vite.examples.config.js",
     "preview": "npm run build && npm run build:examples && vite preview --config vite.examples.config.js --host",
-    "verify:package": "sh ./scripts/verify-package.sh",
-    "release:prepare": "sh ./scripts/release-prepare.sh"
+    "verify:package": "sh ./scripts/verify-package.sh"
   },
   "devDependencies": {
     "jsdom": "^24.1.0",
