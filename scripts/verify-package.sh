@@ -21,7 +21,7 @@ if (missingScripts.length || missingFields.length) {
 
 npm run build >/dev/null
 
-printf "%s" "$PACK_OUTPUT" | node -e '
+npm pack --dry-run --json | node -e '
 const fs = require("node:fs");
 const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
 const data = JSON.parse(fs.readFileSync(0, "utf8"));
