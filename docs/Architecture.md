@@ -122,8 +122,6 @@ Every public component inherits from LumElement, and LumElement extends HTMLElem
 
 Required inheritance chain example: `HTMLElement -> LumElement -> LumButton -> LumCancelButton`
 
-
-
 ### 5.3 Attribute and property rules
 
 - Any user-configurable behavior must be represented by an attribute.
