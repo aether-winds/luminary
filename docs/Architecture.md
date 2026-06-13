@@ -27,15 +27,14 @@ Luminary is a dependency-free component library built with native web platform A
 - Component authoring standards and public API conventions
 - Shadow DOM styling and theming conventions
 - Vite library-mode build architecture and output formats
-- NPM publishing and release workflow
+- Packaging verification and future release workflow
 - Testing strategy and quality gates
 - Developer experience and local workflow
-- CI/CD considerations for build, test, and publish
+- CI/CD considerations for build, test, and future publish
 
 ### Out of scope
 
 - Framework wrapper packages in v1 (React, Vue, Angular)
-- TypeScript source conversion
 - Legacy browser support beyond documented evergreen targets
 
 ## 3. Architecture Principles
@@ -55,8 +54,17 @@ Target project layout:
 luminary/
 ├── src/
 │   └── components/
-│       ├── lum-button.js
-│       ├── lum-input.js
+│       ├── lum-element.component.ts
+│       ├── lum-button/
+│       │   ├── index.ts
+│       │   ├── lum-button.component.ts
+│       │   ├── lum-button.test.ts
+│       │   ├── lum-cancel-button.component.ts
+│       │   ├── lum-cancel-button.test.ts
+│       │   ├── lum-accept-button.component.ts
+│       │   ├── lum-accept-button.test.ts
+│       │   ├── lum-submit-button.component.ts
+│       │   └── lum-submit-button.test.ts
 │       └── ...
 ├── dist/
 │   ├── luminary.esm.js
@@ -67,21 +75,23 @@ luminary/
 │   ├── index.html
 │   └── demos/
 ├── scripts/
-│   ├── release.sh
-│   └── verify-package.sh
+│   └── ...
 ├── docs/
 │   ├── PRD.md
-│   └── Architecture.md
+│   ├── Architecture.md
+|   └── ...
 ├── .editorconfig
 ├── package.json
 ├── vite.config.js
 ├── LICENSE
-└── README.md
+├── README.md
+└── ...
 ```
 
 Directory responsibilities:
 
-- src/components/: Source of truth, one file per component.
+- src/components/: Source of truth, organized by component families.
+- src/components/lum-{component}/: Primary component plus alternative component variants.
 - dist/: Build outputs only, generated artifacts.
 - examples/: Local demos and manual QA playground.
 - scripts/: Internal helper scripts invoked only via package.json scripts (not run directly).
@@ -97,130 +107,22 @@ Script execution policy:
 
 ### 5.1 File and naming conventions
 
-- File naming: kebab-case matching tag name, for example lum-button.js.
-- Tag naming: lum- prefix required for all public components.
-- Class naming: PascalCase, for example LumButton.
+- Component files use the `lum-*.component.ts` naming convention (example: `lum-button.component.ts`).
+- Test files use the `lum-*.test.ts` naming convention and are co-located with their component (example: `lum-button.test.ts`).
+- Other file types follow the `lum-*.component.*` convention where the extension denotes the file type (example: `lum-button.component.html`, `lum-button.component.css`).
+- Specialized file types use a descriptive type segment (example: `lum-*.service.ts`). New type segments must be proposed to and approved by the team before use.
+- Tag naming: `lum-` prefix required for all public components.
+- Class naming: PascalCase, for example `LumButton`.
+- Component families live in per-component folders (for example `src/components/lum-button/`).
 - Export strategy: Default export of the class and optional named exports.
 
 ### 5.2 Base component shape
 
-Each component extends HTMLElement and attaches a shadow root in the constructor. The example below also shows attribute/property mirroring for disabled and variant.
+Every public component inherits from LumElement, and LumElement extends HTMLElement. Component variants inherit from their primary component.
 
-```js
-/**
- * @tag lum-button
- * @attr variant - visual style variant
- * @attr disabled - disables interaction
- * @slot - button label/content
- * @fires lum-click - emitted on user activation when enabled
- */
-export default class LumButton extends HTMLElement {
-  static get observedAttributes() {
-    return ["variant", "disabled"];
-  }
+Required inheritance chain example: `HTMLElement -> LumElement -> LumButton -> LumCancelButton`
 
-  get disabled() {
-    return this.hasAttribute("disabled");
-  }
 
-  set disabled(value) {
-    if (Boolean(value)) {
-      this.setAttribute("disabled", "");
-    } else {
-      this.removeAttribute("disabled");
-    }
-  }
-
-  get variant() {
-    return this.getAttribute("variant") || "solid";
-  }
-
-  set variant(value) {
-    if (value === null || value === undefined || value === "") {
-      this.removeAttribute("variant");
-      return;
-    }
-
-    this.setAttribute("variant", String(value));
-  }
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
-    this.render();
-  }
-
-  connectedCallback() {
-    this.shadowRoot.addEventListener("click", this.onClick);
-  }
-
-  disconnectedCallback() {
-    this.shadowRoot.removeEventListener("click", this.onClick);
-  }
-
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (oldValue !== newValue) this.render();
-  }
-
-  onClick = (event) => {
-    if (this.disabled) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
-
-    this.dispatchEvent(
-      new CustomEvent("lum-click", {
-        bubbles: true,
-        composed: true,
-        detail: { source: "lum-button" }
-      })
-    );
-  };
-
-  render() {
-    const disabled = this.disabled;
-    const variant = this.variant;
-
-    if (!this.hasAttribute("variant") && variant) {
-      this.setAttribute("variant", variant);
-    }
-
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host {
-          display: inline-block;
-          --lum-button-bg: #0b5fff;
-          --lum-button-color: #ffffff;
-          --lum-button-radius: 0.5rem;
-        }
-        button {
-          background: var(--lum-button-bg);
-          color: var(--lum-button-color);
-          border: 0;
-          border-radius: var(--lum-button-radius);
-          padding: 0.625rem 0.875rem;
-          cursor: pointer;
-        }
-        button[disabled] {
-          opacity: 0.55;
-          cursor: not-allowed;
-        }
-        :host([variant="outline"]) button {
-          background: transparent;
-          border: 1px solid var(--lum-button-bg);
-          color: var(--lum-button-bg);
-        }
-      </style>
-      <button type="button" ${disabled ? "disabled" : ""}>
-        <slot></slot>
-      </button>
-    `;
-  }
-}
-
-customElements.define("lum-button", LumButton);
-```
 
 ### 5.3 Attribute and property rules
 
@@ -289,12 +191,12 @@ Example token naming:
 
 ### 7.2 Entry strategy
 
-- Main entry file (for example src/index.js) imports and registers all shipped components.
+- Main entry file (for example src/index.ts) imports and registers all shipped components.
 - Optional per-component entry points can be added later for tree-shaking.
 
 Setup guidance:
 
-1. Create src/index.js and export/register the public components from that entry.
+1. Create src/index.ts and export/register the public components from that entry.
 2. Add Vite as a dev dependency and place the config in vite.config.js.
 3. Add standard package scripts so contributors can run the expected workflow.
 
@@ -303,12 +205,13 @@ Recommended package scripts:
 ```json
 {
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --config vite.examples.config.js",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
     "build": "vite build",
-    "preview": "vite preview",
-    "test": "web-test-runner",
-    "verify:package": "bash ./scripts/verify-package.sh",
-    "release:prepare": "bash ./scripts/release.sh"
+    "build:examples": "vite build --config vite.examples.config.js",
+    "preview": "npm run build && npm run build:examples && vite preview --config vite.examples.config.js --host",
+    "verify:package": "sh ./scripts/verify-package.sh"
 }
 ```
 
@@ -327,7 +230,7 @@ import path from "node:path";
 export default defineConfig({
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/index.js"),
+      entry: path.resolve(__dirname, "src/index.ts"),
       name: "Luminary",
       formats: ["es", "cjs", "iife"],
       fileName: (format) => {
@@ -354,7 +257,7 @@ export default defineConfig({
 - dist/luminary.iife.js
 - sourcemaps for each build output
 
-## 8. NPM Packaging and Publishing Workflow
+## 8. Packaging and Release Workflow
 
 ### 8.1 Required package metadata
 
@@ -384,22 +287,16 @@ Example files array:
 }
 ```
 
-### 8.2 Release process
+### 8.2 Local verification sequence
 
-1. Ensure branch is merged to main.
-2. Run clean install and verification checks.
-3. Run test suite and build via npm scripts.
-4. Bump semantic version (patch/minor/major).
-5. Update changelog and release notes.
-6. Publish to npm.
-7. Push git tag and publish GitHub release.
+1. Run npm run test.
+2. Run npm run build.
+3. Validate package contents with npm run verify:package.
 
-Required release commands:
+Release status:
 
-1. npm run verify:package
-2. npm run test
-3. npm run build
-4. npm run release:prepare
+- Tagging and publishing are handled via GitHub pipeline.
+- Release governance and publish automation are being finalized.
 
 ### 8.3 Versioning policy
 
@@ -412,7 +309,7 @@ Required release commands:
 
 ### 9.1 Test layers
 
-- Unit/component behavior tests: Web Test Runner.
+- Unit/component behavior tests: Vitest + jsdom.
 - Browser interaction and regression tests: Playwright (optional but recommended).
 - Build validation tests: verify dist artifacts and import paths.
 
@@ -425,19 +322,19 @@ Required release commands:
 
 ### 9.3 Suggested test structure
 
+Test files are co-located with their component inside the component family folder:
+
 ```text
-tests/
-├── components/
-│   ├── lum-button.test.js
-│   ├── lum-input.test.js
-│   └── ...
-├── integration/
-│   ├── esm-import.test.js
-│   ├── cjs-import.test.js
-│   └── iife-browser.test.js
-└── a11y/
-    ├── keyboard.test.js
-    └── semantics.test.js
+src/
+└── components/
+    ├── lum-element.component.ts
+    └── lum-button/
+        ├── index.ts
+        ├── lum-button.component.ts
+        ├── lum-button.test.ts
+        ├── lum-cancel-button.component.ts
+        ├── lum-cancel-button.test.ts
+        └── ...
 ```
 
 ## 10. Developer Experience and Workflow
@@ -470,9 +367,9 @@ tests/
 
 - `main` is the protected production branch.
 - Feature branches are created from `main`.
-- Branch names should clearly map to the work item, for example:
-  - `feature/#2/arch-document`
-  - `fix/#15/button-disabled-state`
+- The following branch naming conventions should be used for all new branches:
+  - `feature/#<ticket-number>/<short-3-6-word-description>` — for work associated with a ticket
+  - `task/<short-3-6-word-description>` — for work without a ticket number
 
 Development workflow:
 
@@ -505,8 +402,8 @@ On version tag or workflow_dispatch:
 
 - Re-run test and build gates
 - Run package verification through npm run verify:package
-- Publish to npm (token from repository secrets)
-- Create GitHub release notes
+- Publish step intentionally disabled until governance is finalized
+- Create GitHub release notes (optional)
 
 ### 11.4 GitHub Actions outline
 
@@ -545,7 +442,7 @@ Post-v1 architecture extensions:
 - Component authoring standards documented: Section 5.
 - Shadow DOM and styling conventions established: Section 6.
 - Vite library-mode build documented: Section 7.
-- NPM publishing workflow documented: Section 8.
+- Release readiness and deferred publishing workflow documented: Section 8.
 - Testing strategy defined: Section 9.
 - Developer experience documented: Section 10.
 - CI/CD considerations outlined: Section 11.

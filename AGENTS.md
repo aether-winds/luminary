@@ -18,14 +18,13 @@ Primary product goals:
 Out of scope for v1:
 
 - Framework wrappers (React, Vue, Angular)
-- TypeScript source conversion
 - Legacy browser support beyond evergreen targets
 
 ## Source of Truth and Directory Rules
 
 Use this repository layout and ownership model:
 
-- `src/components/`: Source of truth for components, one component per file
+- `src/components/`: Source of truth for component families (`lum-element` base + per-component folders)
 - `dist/`: Generated build artifacts only; do not hand-author
 - `examples/`: Manual QA playground and demos
 - `scripts/`: Internal helper scripts called by npm scripts only
@@ -33,8 +32,11 @@ Use this repository layout and ownership model:
 
 Expected structure target from architecture docs:
 
-- `src/components/lum-*.js` (component implementations)
-- `src/index.js` (library entry that registers/exports public components)
+- `src/components/lum-element.component.ts` (abstract base element)
+- `src/components/lum-*/lum-*.component.ts` (component family implementations)
+- `src/components/lum-*/lum-*.test.ts` (component test files, co-located with component)
+- `src/components/lum-*/index.ts` (component family barrel file that registers/exports public component files for the family)
+- `src/index.ts` (library barrel file that registers/exports public components file for the library)
 - `vite.config.js` (Vite library-mode build config)
 - `package.json` scripts as task entry points
 
@@ -50,12 +52,13 @@ Required local workflow commands:
 - `npm run build`
 - `npm run preview`
 
-Required release validation sequence:
+Required local verification sequence:
 
-1. `npm run verify:package`
-2. `npm run test`
-3. `npm run build`
-4. `npm run release:prepare`
+1. `npm run test`
+2. `npm run build`
+3. `npm run verify:package`
+
+Tagging and publishing are handled via GitHub pipeline and are not part of the local verification workflow.
 
 Script execution policy:
 
@@ -67,15 +70,20 @@ Script execution policy:
 
 Language and dependencies:
 
-- Plain JavaScript only
+- Typescript
 - Zero runtime dependencies
+- Dev dependencies only
 
 Component standards:
 
 - Every public component tag must use the `lum-` prefix
-- File naming must be kebab-case and match tag name (example: `lum-button.js`)
+- Component files use the `lum-*.component.ts` naming convention (example: `lum-button.component.ts`)
+- Test files use the `lum-*.test.ts` naming convention, co-located with their component (example: `lum-button.test.ts`)
+- Other file types use the `lum-*.component.*` convention where the extension denotes the file type (example: `lum-button.component.html`, `lum-button.component.css`)
+- Specialized file types use a descriptive type segment (example: `lum-*.service.ts`); new type segments must be proposed to and approved by the team before use
 - Class naming must be PascalCase (example: `LumButton`)
-- Components must extend `HTMLElement`; if user specifies differently, default to user.
+- Every component must inherit from `LumElement` (which extends `HTMLElement`)
+- Variant components should inherit from their primary component (for example: `LumCancelButton` extends `LumButton`)
 - Components must attach Shadow DOM in constructor
 - Styles must live inside Shadow DOM
 

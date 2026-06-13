@@ -9,7 +9,7 @@ Luminary is an early-stage foundation for a dependency-free web component librar
 - Emphasizes stable public component contracts through attributes, properties, events, and slots.
 - Prioritizes accessibility defaults and predictable behavior over broad feature surface.
 
-This repository currently provides a starter component (`<lum-button>`) and the build, test, and example infrastructure needed to grow the library intentionally.
+This repository currently provides a starter component family (`<lum-button>`, `<lum-cancel-button>`, `<lum-accept-button>`, `<lum-submit-button>`) and the build, test, and example infrastructure needed to grow the library intentionally.
 
 ## Installation
 
@@ -38,6 +38,7 @@ Render a component in HTML:
 
 ```html
 <lum-button label="Save"></lum-button>
+<lum-cancel-button></lum-cancel-button>
 ```
 
 Listen for component events:
@@ -46,7 +47,7 @@ Listen for component events:
 const button = document.querySelector("lum-button");
 
 button.addEventListener("lum-button-click", (event) => {
-	console.log("Luminary button activated", event.detail);
+  console.log("Luminary button activated", event.detail);
 });
 ```
 
@@ -54,10 +55,10 @@ Customize via CSS design tokens:
 
 ```css
 lum-button {
-	--lum-button-bg: #0a7a6d;
-	--lum-button-bg-hover: #07574f;
-	--lum-button-fg: #ffffff;
-	--lum-button-radius: 0.75rem;
+  --lum-button-bg: #0a7a6d;
+  --lum-button-bg-hover: #07574f;
+  --lum-button-fg: #ffffff;
+  --lum-button-radius: 0.75rem;
 }
 ```
 
@@ -65,7 +66,8 @@ lum-button {
 
 Luminary is structured around a small set of explicit layers:
 
-- `src/components/`: Source of truth for component implementations (one component per file).
+- `src/components/lum-element.component.ts`: Abstract base element all components inherit from.
+- `src/components/lum-{component}/`: Component family folders containing a primary component, alternatives, and co-located tests.
 - `src/index.js`: Library entry that exports/registers public components.
 - `examples/`: Manual QA playground.
 - `docs/`: Product and architecture references.
@@ -101,6 +103,12 @@ Run tests:
 npm run test
 ```
 
+Run static type checks (TypeScript on JavaScript sources):
+
+```bash
+npm run typecheck
+```
+
 Build library artifacts:
 
 ```bash
@@ -126,8 +134,13 @@ Luminary component authoring follows these baseline conventions:
 ### Naming and structure
 
 - Public tag names use the `lum-` prefix (example: `lum-button`).
-- Component files are kebab-case and match the public tag name.
-- Component classes are PascalCase and extend `HTMLElement`.
+- Component files use the `lum-*.component.ts` naming convention (example: `lum-button.component.ts`).
+- Test files use the `lum-*.test.ts` naming convention and are co-located with their component file.
+- Other file types follow the `lum-*.component.*` convention with the extension denoting the file type (example: `lum-button.component.html`).
+- Specialized file types use a descriptive type segment (example: `lum-*.service.ts`). New type segments require team approval before use.
+- Component classes are PascalCase and extend `HTMLElement` via `LumElement`.
+- All public components inherit from the abstract `LumElement` base class.
+- Alternative components inherit from the primary component in a family (`LumCancelButton` extends `LumButton`).
 
 ### API and reactivity
 
