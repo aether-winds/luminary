@@ -6,7 +6,7 @@ export default defineConfig({
     sourcemap: true,
     emptyOutDir: true,
     lib: {
-      entry: resolve(__dirname, "src/index.js"),
+      entry: resolve(__dirname, "src/index.ts"),
       name: "Luminary",
       formats: ["es", "cjs", "iife"],
       fileName: (format) => {
