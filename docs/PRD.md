@@ -81,8 +81,9 @@ Existing component libraries can impose framework lock-in, large bundles, or com
   - Corresponding JS properties where applicable
   - Named/custom events
   - Supported slots
-  - CSS custom properties using the `--lum-` prefix
+  - CSS custom properties using the `--lum-` prefix as the primary style customization contract
 - Attribute changes must reactively update UI state.
+- part exposure is not required for v1 and should only be used by documented exception.
 
 ### Events
 
@@ -110,6 +111,7 @@ For each component, documentation must include:
 - Events
 - Slots
 - CSS custom properties
+- Any approved part exceptions and rationale (only when used)
 - Accessibility notes
 
 ## Non-Functional Requirements

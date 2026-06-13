@@ -102,7 +102,9 @@ Styling and theming:
 
 - Public theming tokens must use `--lum-` prefix
 - Component token pattern: `--lum-{component}-{token}`
-- Use `part` attributes for intentional external styling hooks
+- Standardize style customization on CSS custom properties
+- Do not expose `part` as a default public styling contract
+- Allow `part` only by explicit, documented exception when tokens cannot cover a required use case
 - Do not expose internal class names as public contract
 
 Accessibility baseline:
