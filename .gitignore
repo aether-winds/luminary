@@ -144,3 +144,12 @@ examples-dist/
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Common agent/tool directories
+# You can have them in your directory, but you should default to the AGENTS.md file for consistency.
+.aider/
+.claude/
+.continue/
+.cursor/
+.roo/
+.windsurf/
