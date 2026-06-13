@@ -4,7 +4,7 @@ set -eu
 node -e '
 const fs = require("node:fs");
 const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
-const requiredScripts = ["dev", "test", "build", "preview", "verify:package", "release:prepare"];
+const requiredScripts = ["dev", "test", "typecheck", "build", "preview", "verify:package"];
 const missingScripts = requiredScripts.filter((name) => !pkg.scripts || !pkg.scripts[name]);
 const requiredFields = ["name", "version", "license", "main", "module", "exports", "files"];
 const missingFields = requiredFields.filter((name) => pkg[name] == null);
