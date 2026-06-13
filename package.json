@@ -9,7 +9,6 @@
     "url": "git+https://github.com/aether-winds/luminary.git"
   },
   "main": "./dist/luminary.cjs.cjs",
-  },
   "files": [
     "dist",
     "README.md",
