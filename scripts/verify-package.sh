@@ -21,17 +21,21 @@ if (missingScripts.length || missingFields.length) {
 
 npm run build >/dev/null
 
-PACK_OUTPUT="$(npm pack --dry-run --json)"
 printf "%s" "$PACK_OUTPUT" | node -e '
 const fs = require("node:fs");
+const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
 const data = JSON.parse(fs.readFileSync(0, "utf8"));
 const files = new Set((data[0] && data[0].files ? data[0].files : []).map((entry) => entry.path));
+const entryPoints = [
+  pkg.main,
+  pkg.module,
+  pkg.exports && pkg.exports["."] ? pkg.exports["."].import : null,
+  pkg.exports && pkg.exports["."] ? pkg.exports["."].require : null,
+].filter(Boolean).map((p) => p.replace(/^\.\//, ""));
 const required = [
   "README.md",
   "LICENSE",
-  "dist/luminary.esm.js",
-  "dist/luminary.cjs.cjs",
-  "dist/luminary.iife.js"
+  ...entryPoints,
 ];
 const missing = required.filter((name) => !files.has(name));
 if (missing.length) {
