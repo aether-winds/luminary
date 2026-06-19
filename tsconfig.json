@@ -7,7 +7,9 @@
     "skipLibCheck": true,
     "strict": false,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["node", "vitest/globals"]
+    "types": ["node", "vitest/globals"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": [
     "src/**/*.ts"

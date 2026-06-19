@@ -255,6 +255,15 @@ export default defineConfig({
 - dist/luminary.iife.js
 - sourcemaps for each build output
 
+### 7.5 Environment configuration
+
+- Luminary uses a project-specific configuration namespace named `LumConfig` for build-time environment settings.
+- Environment files are the primary source of truth, with `.env.development` and `.env.production` defining the default behavior for local development and production builds.
+- Script-level overrides are reserved for edge cases, not as the main configuration mechanism.
+- Vite is responsible for resolving and injecting the final configuration value during dev-server startup and library builds.
+- Logging is build-time controlled for the shipped artifact: development keeps `info` and `trace` visible, while production keeps `warn` and `error` only.
+- Future feature flags should extend `LumConfig` rather than introducing separate ad hoc configuration paths.
+
 ## 8. Packaging and Release Workflow
 
 ### 8.1 Required package metadata
