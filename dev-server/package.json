@@ -1,0 +1,31 @@
+{
+  "name": "@aether-winds/luminary-dev-server",
+  "version": "0.0.1",
+  "description": "Development server for the luminary project.",
+  "homepage": "https://github.com/aether-winds/luminary#readme",
+  "bugs": {
+    "url": "https://github.com/aether-winds/luminary/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aether-winds/luminary.git"
+  },
+  "license": "MIT",
+  "author": "Patrick Ortiz <pogithub@gmail.com>",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "http-server -p ",
+    "dev.bak": "tsx --tsconfig=./tsconfig.json --conditions=development --watch ./src/index.ts",
+    "start": "live-server -p $npm_package_config_defaults_port ./src",
+    "test": "echo \"Test script not defined\" && exit 1"
+  },
+  "dependencies": {
+    "@aether-winds/luminary-components": "*"
+  },
+  "config": {
+    "defaults": {
+      "port": "8000"
+    }
+  }
+}

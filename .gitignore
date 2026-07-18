@@ -154,3 +154,6 @@ vite.config.ts.timestamp-*
 .cursor/
 .roo/
 .windsurf/
+
+# Dev folders
+components/dev
