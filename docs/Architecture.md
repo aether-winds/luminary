@@ -4,8 +4,8 @@
 
 - Product: Luminary Components Library
 - Repository: aether-winds/luminary
-- Date: 2026-05-30
-- Status: Draft v0.1
+- Date: 2026-07-18
+- Status: Draft v0.2
 - Owners: Engineering
 - Companion Document: PRD
 
@@ -26,7 +26,7 @@ Luminary is a dependency-free component library built with native web platform A
 - Repository layout and component placement
 - Component authoring standards and public API conventions
 - Shadow DOM styling and theming conventions
-- Vite library-mode build architecture and output formats
+- Build architecture and output formats
 - Packaging verification and future release workflow
 - Testing strategy and quality gates
 - Developer experience and local workflow
@@ -44,64 +44,57 @@ Luminary is a dependency-free component library built with native web platform A
 - Stable public API: Attributes, properties, events, and slots are the product contract.
 - Encapsulation by default: Component styles are isolated in Shadow DOM.
 - Theming by contract: Expose CSS custom properties with the --lum- prefix.
-- Predictable build outputs: ESM, CJS, and IIFE from one source.
+- Predictable build outputs: ESM is the current output format; multi-format output (ESM, CJS, and IIFE) is planned.
 
 ## 4. Project Directory Structure
 
-Target project layout:
+This repository uses npm workspaces and is organized as a monorepo with two workspace packages.
+
+Workspace layout:
 
 ```text
 luminary/
-├── src/
-│   └── components/
-│       ├── lum-element.component.ts
-│       ├── lum-button/
-│       │   ├── index.ts
-│       │   ├── lum-button.component.ts
-│       │   ├── lum-button.test.ts
-│       │   ├── lum-cancel-button.component.ts
-│       │   ├── lum-cancel-button.test.ts
-│       │   ├── lum-accept-button.component.ts
-│       │   ├── lum-accept-button.test.ts
-│       │   ├── lum-submit-button.component.ts
-│       │   └── lum-submit-button.test.ts
-│       └── ...
-├── dist/
-│   ├── luminary.esm.js
-│   ├── luminary.cjs.js
-│   ├── luminary.iife.js
-│   └── *.css (if emitted)
-├── examples/
-│   ├── index.html
-│   └── demos/
-├── scripts/
-│   └── ...
+├── components/                    (@aether-winds/luminary-components)
+│   ├── dev/                       (dev build output, generated, gitignored)
+│   ├── dist/                      (prod build output, generated, gitignored)
+│   ├── src/
+│   │   └── index.ts
+│   ├── package.json
+│   ├── tsconfig.base.json
+│   ├── tsconfig.dev.json
+│   ├── tsconfig.prod.json
+│   └── tsconfig.json
+├── dev-server/                    (@aether-winds/luminary-dev-server)
+│   ├── src/
+│   │   └── site/
+│   │       └── index.html
+│   ├── dev-server.config.cjs
+│   └── package.json
 ├── docs/
 │   ├── PRD.md
-│   ├── Architecture.md
-|   └── ...
+│   └── Architecture.md
 ├── .editorconfig
+├── .gitignore
 ├── package.json
-├── vite.config.js
-├── LICENSE
-├── README.md
-└── ...
+├── package-lock.json
+└── LICENSE
 ```
 
 Directory responsibilities:
 
-- src/components/: Source of truth, organized by component families.
-- src/components/lum-{component}/: Primary component plus alternative component variants.
-- dist/: Build outputs only, generated artifacts.
-- examples/: Local demos and manual QA playground.
-- scripts/: Internal helper scripts invoked only via package.json scripts (not run directly).
-- docs/: Product and engineering documentation.
+- `components/`: The component library source and build outputs. Published as `@aether-winds/luminary-components`.
+- `components/src/`: TypeScript source files for all components.
+- `components/dev/`: Dev build output compiled with source maps (gitignored). Used during local contributor workflows.
+- `components/dist/`: Production build output (gitignored). Consumed by library users.
+- `dev-server/`: Local development server. Not published; for contributor use only.
+- `dev-server/src/site/`: Static HTML pages for manual QA and component preview.
+- `docs/`: Product and engineering documentation.
 
 Script execution policy:
 
-- All project task entry points must be defined in package.json under scripts.
-- Contributors and CI should run tasks with `npm run <script-name>`.
-- Files in scripts/ are implementation details and are not intended to be executed directly.
+- All project task entry points must be defined in `package.json` under `scripts`.
+- Contributors and CI should run tasks with `npm run <script-name>` from the workspace root.
+- Workspace-level scripts can also be targeted directly with `npm run <script-name> --workspace=<workspace-name>`.
 
 ## 5. Component Authoring Standards
 
@@ -178,82 +171,70 @@ Example token naming:
 - --lum-input-border-color
 - --lum-modal-z-index
 
-## 7. Build Architecture (Vite Library Mode)
+## 7. Build Architecture
 
-### 7.1 Build goals
+### 7.1 Build tool
 
-- Generate three outputs from shared source:
-  - ESM for modern bundlers
-  - CJS for legacy Node/CommonJS consumers
-  - IIFE for direct browser script usage
+The `components` package is compiled by the TypeScript compiler (`tsc`). There is no bundler in the current stack. The build produces native ESM output.
 
-### 7.2 Entry strategy
+Multi-format output (ESM, CJS, and a browser-ready IIFE) is planned for a future milestone.
 
-- Main entry file (for example src/index.ts) imports and registers all shipped components.
-- Optional per-component entry points can be added later for tree-shaking.
+### 7.2 Build configurations
 
-Setup guidance:
+The `components/` package uses a layered TypeScript configuration:
 
-1. Create src/index.ts and export/register the public components from that entry.
-2. Add Vite as a dev dependency and place the config in vite.config.js.
-3. Add standard package scripts so contributors can run the expected workflow.
+| File | Purpose |
+|------|---------|
+| `tsconfig.base.json` | Shared compiler options (rootDir, module, target, strict flags, etc.) |
+| `tsconfig.dev.json` | Extends base; outputs to `components/dev/` with source maps and declaration maps |
+| `tsconfig.prod.json` | Extends base; outputs to `components/dist/` without source maps |
+| `tsconfig.json` | Extends `tsconfig.dev.json`; used as the primary config for IDE tooling |
 
-Recommended package scripts:
+### 7.3 Build outputs
 
-```json
-{
-  "scripts": {
-    "dev": "vite --config vite.examples.config.js",
-    "test": "vitest run",
-    "typecheck": "tsc --noEmit",
-    "build": "vite build",
-    "build:examples": "vite build --config vite.examples.config.js",
-    "preview": "npm run build && npm run build:examples && vite preview --config vite.examples.config.js --host",
-    "verify:package": "sh ./scripts/verify-package.sh"
-}
-```
+| Mode | Output directory | Source maps | Declaration maps |
+|------|-----------------|-------------|------------------|
+| Development | `components/dev/` | Yes | Yes |
+| Production | `components/dist/` | No | No |
+
+`components/dist/` and `components/dev/` are gitignored.
+
+### 7.4 Package exports
+
+The `components/package.json` uses conditional exports to route imports to the appropriate build output:
+
+- The `default` condition resolves to `components/dist/` (production build).
+- The `development` condition resolves to `components/dev/` (dev build with source maps) not intended for production.
+
+The `development` condition is non-standard and is not resolved automatically by Node.js. It is activated explicitly via the `--conditions=development` flag passed to `npm run`. This provides a path for tooling that needs to consume the development build during contributor workflows.
+
+### 7.5 Entry strategy
+
+- The main entry point is `components/src/index.ts`.
+- This file exports and registers all public components.
+- Optional per-component entry points may be added later for tree-shaking.
+
+### 7.6 Development workflow
+
+The workspace root `package.json` provides scripts to orchestrate the local development workflow:
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Runs `dev:components` and `dev:server` concurrently |
+| `npm run dev:components` | Compiles the components package in watch mode to `components/dev/` |
+| `npm run dev:server` | Starts the BrowserSync development server |
+
+The dev server (`@aether-winds/luminary-dev-server`) is configured via `dev-server/dev-server.config.cjs`:
+
+- Serves `dev-server/src/site/` as the web root.
+- Statically serves `components/dev/` at the `/luminary-components` route.
+- Watches both `dev-server/src/site/` and `components/dev/` for live reload.
 
 Script design guidance:
 
 - Human-facing command names belong in package.json scripts.
 - package.json scripts may call scripts/* helpers as internal implementation.
 - CI jobs should call npm run commands instead of executing scripts/* paths directly.
-
-### 7.3 Proposed Vite configuration
-
-```js
-import { defineConfig } from "vite";
-import path from "node:path";
-
-export default defineConfig({
-  build: {
-    lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
-      name: "Luminary",
-      formats: ["es", "cjs", "iife"],
-      fileName: (format) => {
-        if (format === "es") return "luminary.esm.js";
-        return `luminary.${format}.js`;
-      }
-    },
-    outDir: "dist",
-    sourcemap: true,
-    emptyOutDir: true,
-    rollupOptions: {
-      output: {
-        exports: "named"
-      }
-    }
-  }
-});
-```
-
-### 7.4 Artifact expectations
-
-- dist/luminary.esm.js
-- dist/luminary.cjs.js
-- dist/luminary.iife.js
-- sourcemaps for each build output
 
 ## 8. Packaging and Release Workflow
 
@@ -307,7 +288,7 @@ Release status:
 
 ### 9.1 Test layers
 
-- Unit/component behavior tests: Vitest + jsdom.
+- Unit/component behavior tests: Jest + jsdom.
 - Browser interaction and regression tests: Playwright (optional but recommended).
 - Build validation tests: verify dist artifacts and import paths.
 
@@ -323,16 +304,15 @@ Release status:
 Test files are co-located with their component inside the component family folder:
 
 ```text
-src/
-└── components/
-    ├── lum-element.component.ts
-    └── lum-button/
-        ├── index.ts
-        ├── lum-button.component.ts
-        ├── lum-button.test.ts
-        ├── lum-cancel-button.component.ts
-        ├── lum-cancel-button.test.ts
-        └── ...
+components/src/
+  ├── lum-element.component.ts
+  └── lum-button/
+      ├── index.ts
+      ├── lum-button.component.ts
+      ├── lum-button.test.ts
+      ├── lum-cancel-button.component.ts
+      ├── lum-cancel-button.test.ts
+      └── ...
 ```
 
 ## 10. Developer Experience and Workflow
@@ -439,7 +419,7 @@ Post-v1 architecture extensions:
 - Project structure defined: Section 4.
 - Component authoring standards documented: Section 5.
 - Shadow DOM and styling conventions established: Section 6.
-- Vite library-mode build documented: Section 7.
+- Build architecture documented: Section 7.
 - Release readiness and deferred publishing workflow documented: Section 8.
 - Testing strategy defined: Section 9.
 - Developer experience documented: Section 10.
