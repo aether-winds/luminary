@@ -1,1 +1,0 @@
-export type { Registry } from './registry.type.js';
