@@ -4,8 +4,8 @@
 
 - Product: Luminary Components Library
 - Repository: aether-winds/luminary
-- Date: 2026-05-24
-- Status: Draft v0.1
+- Date: 2026-07-18
+- Status: Draft v0.2
 - Owner: Product + Engineering
 - Companion Document: Engineering Architecture Document (separate issue)
 
@@ -184,7 +184,7 @@ Test files must be co-located with their component file and follow the `lum-*.te
 ### Distribution Targets
 
 - Maintain package-ready artifacts with publishing currently deferred.
-- Produce multiple build outputs via Vite library mode (for example ESM, CJS, and browser-ready build) as defined in architecture implementation.
+- Currently produces ESM output via the TypeScript compiler (`tsc`). Multi-format output (ESM, CJS, and a browser-ready build) is planned for a future milestone.
 
 ### Packaging Requirements
 

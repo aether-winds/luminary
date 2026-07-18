@@ -1,0 +1,33 @@
+{
+  "name": "@aether-winds/luminary-components",
+  "version": "0.0.1",
+  "description": "Component library for luminary project.",
+  "homepage": "https://github.com/aether-winds/luminary#readme",
+  "bugs": {
+    "url": "https://github.com/aether-winds/luminary/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aether-winds/luminary.git"
+  },
+  "license": "MIT",
+  "author": "Patrick Ortiz <pogithub@gmail.com>",
+  "type": "module",
+  "exports": {
+    ".": {
+      "development": {
+        "types": "./dev/index.d.js",
+        "default": "./dev/index.js"
+      },
+      "default": {
+        "types": "./dist/index.d.js",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc -p ./tsconfig.prod.json",
+    "test": "echo \"Test script not defined\" && exit 1",
+    "dev": "tsc -p ./tsconfig.dev.json --watch" 
+  }
+}
