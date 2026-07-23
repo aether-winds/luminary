@@ -1,0 +1,24 @@
+:host {
+    container: lum-column-grid / inline-size;
+
+    & > slot {
+        --number-of-columns: 4;
+
+        display: grid;
+        grid-template-columns: repeat(var(--number-of-columns), 1fr);
+        gap: 24px;
+
+        &::slotted(*) {
+            grid-column: span var(--number-of-columns);
+        }
+    }
+}
+
+@container lum-column-grid (width >= 768px) {
+    & > slot { --number-of-columns: 8; }
+}
+
+@container lum-column-grid (width >= 1366px) {
+    & > slot { --number-of-columns: 12; }
+}
+

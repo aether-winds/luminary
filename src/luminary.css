@@ -1,0 +1,202 @@
+@property --font-scale-base-size {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 16px;
+}
+
+@property --font-scale-base-letter-spacing {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0%;
+}
+
+@property --font-scale-base-line-height {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1.5;
+}
+
+@property --font-scale-interval {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@property --font-scale-size-interval-ratio {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1.25;
+    /*
+    - Minor Second: 1.067
+    - Major Second: 1.125
+    - Minor Third: 1.2
+    - Major Third: 1.25
+    - Perfect Fourth: 1.333
+    - Augmented Fourth: 1.414
+    - Perfect Fifth: 1.5
+    - Golden Ratio: 1.618
+    */
+}
+
+@property --font-scale-letter-spacing-percentage {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0.5%;
+}
+
+:root {
+    /* Colors */
+    color-scheme: light dark;
+
+    /* Background Colors */
+    --color-background-base: light-dark(hsl(0 0% 90% / 1), hsl(0 0% 0% / 1));  
+    --color-background-medium: hsl(from var(--color-background-base) h s calc(l + 5) / 1);
+    --color-background-high: hsl(from var(--color-background-base) h s calc(l + 10) / 1);
+
+    /* Border, highlight and shadow colors */
+    --color-border: light-dark(var(--color-background-base), hsl(0 0 30% / 1));
+    --color-highlight: light-dark(hsl(0 0% 100% / 1), hsl(0 0% 40% / 1));
+    --color-shadow: 0px 2px 2px hsl(0 0 0 / 0.07), 0px 4px 4px hsl(0 0 0 / 0.15);
+
+    /* Gradient colors */
+    --color-gradient: linear-gradient(0deg, var(--color-background-medium) 95%, var(--color-background-high));
+    --color-gradient-hover: linear-gradient(0deg, var(--color-background-medium), var(--color-background-high));
+
+    /* Accent Colors */
+    --color-primary: light-dark(hsl(35 100% 50% / 1), hsl(35 100% 50% / 1));
+    --color-secondary: light-dark(hsl(200 100% 50% / 1), hsl(200 100% 50% / 1));
+    --color-danger: light-dark(hsl(0 100% 70% / 1), hsl(0 100% 30% / 1));
+    --color-warning: light-dark(hsl(60 100% 70% / 1), hsl(60 100% 30% / 1));
+    --color-success: light-dark(hsl(120 100% 70% / 1), hsl(120 100% 30% / 1));
+    --color-info: light-dark(hsl(180 100% 70% / 1), hsl(180 100% 30% / 1));
+
+    /* Text colors */
+    --color-text-base: contrast-color(var(--color-background-base));
+    --color-text-medium: contrast-color(var(--color-background-medium));
+    --color-text-high: contrast-color(var(--color-background-high));
+    --color-text-muted: light-dark(hsl(from var(--color-text-base) h s calc(l + 25) / 1), hsl(from var(--color-text-base) h s calc(l - 25) / 1));
+
+ 
+    /* Fonts */
+    font-family: "Hanken Grotesk", Arial, sans-serif;
+    font-optical-sizing: auto;
+    font-size: var(--font-scale-base-size);
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: var(--font-scale-base-letter-spacing);
+    line-height: var(--font-scale-base-line-height);
+}
+
+*, *::before, *::after {
+    /* Layout */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* Fonts */
+    font-size: calc(1rem * pow(var(--font-scale-size-interval-ratio), var(--font-scale-interval)));
+    font-weight: normal;
+    letter-spacing: calc(var(--font-scale-base-letter-spacing) - (var(--font-scale-letter-spacing-percentage) * var(--font-scale-interval)));
+    line-height: calc(var(--font-scale-base-line-height) - (var(--font-scale-interval) / 10));
+}
+
+body {
+    background-color: var(--color-background-base);
+    color: var(--color-text-base);
+
+    min-height: 100vh;
+    min-width: 100vw;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
+h1 {
+    --font-scale-interval: 5;
+}
+
+h2 {
+    --font-scale-interval: 4;
+}
+
+h3 {
+    --font-scale-interval: 3;
+}
+
+h4 {
+    --font-scale-interval: 2;
+}
+
+h5 {
+    --font-scale-interval: 1;
+}
+
+h6 {
+    --font-scale-interval: 0;
+}
+
+.text-small {
+    --font-scale-interval: -1;
+}
+
+/**
+TODO: Working on layout next
+
+Notes: 
+- Desktop = 12 columns
+- Tablet = 8 columns
+- mobile = 4 columns
+
+8 point grid system:
+- spacing is always a multiple of 8
+- 8, 16, 24, 32, 64, 128, 256
+
+Visual Hierarchy
+- Layout should guide the eyes
+- Use proximity, related things together
+- Use size to tell users most -> least important :: bigger -> smaller size
+- Use contrast to visually pop important things while blending in less important
+- Use alignment: clean lines always equal a clear structure
+
+Color
+- Do not use more color, use the color you have intentionally
+- Limit your palette: 2-3 colors for any project should be fine
+-- Luminary allows definition of 2 colors: primary and secondary
+-- Luminary also defines specific generic colors for danger, warning, success, and info states
+- Use the 60, 30, 10 rule.
+-- 60% of your content should be your background and text colors (blacks / whites)
+-- 30% of your content should be secondary colors: primary / secondary, buttons should use primary, accents use secondary
+-- 10% accent colors: danger, wanring, success, info
+- Use opacity rather than using more colors
+- prioritize contrast in color selection
+-- Highest contrast = 21:1
+-- Passable contrast = 5:1 (lower in actuality, but we won't accept less)
+-- Failed contrast = anything less than passable
+- Chrome -> Developer Tools -> ... -> More tools -> CSS Overview
+
+Design for action
+- Every page should have one goal
+- Clear strategic calls to action
+- Trust, Clarity, Feelings
+*/
+
+
+
+
+
+
+/* @keyframes --anim-fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+:not(:defined) {
+    opacity: 0;
+    visibility: hidden;
+}
+
+:is(:defined) {
+    animation: wakeUp 0.5s ease forwards;
+    visibility: visible;
+} */

@@ -304,7 +304,7 @@ Release status:
 Test files are co-located with their component inside the component family folder:
 
 ```text
-components/src/
+components/src/elements
   ├── lum-element.component.ts
   └── lum-button/
       ├── index.ts

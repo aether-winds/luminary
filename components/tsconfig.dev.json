@@ -1,8 +1,0 @@
-{
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "./dev",
-    "sourceMap": true,
-    "declarationMap": true,
-  }
-}
