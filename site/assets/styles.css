@@ -1,0 +1,40 @@
+.page-content {
+    
+    header {
+        padding: var(--lum-layout-gap);
+        border-bottom: 1px solid var(--lum-color-primary);
+    }
+
+    .main-content {
+        padding: 0 var(--lum-layout-gap);
+
+        & > ul {
+            background-color: var(--lum-color-background-medium);
+            color: var(--lum-color-text-medium);
+            box-shadow: var(--lum-color-shadow);
+            padding: var(--lum-layout-gap);
+            border-radius: 1rem;
+
+            & > li {
+                list-style: none;
+                background-color: var(--lum-color-background-high);
+                color: var(--lum-color-text-high);
+                box-shadow: var(--lum-color-shadow);
+                padding: calc(var(--lum-layout-gap) / 2) var(--lum-layout-gap);
+                border-radius: 1rem;
+                margin-bottom: var(--lum-layout-gap);
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                & > a {
+                    color: var(--lum-color-text-high);
+                    text-decoration: none;
+                }
+            }
+        }
+
+    }
+
+}

@@ -25,6 +25,6 @@
     "dev": "./scripts/start-dev-server.sh"
   },
   "allowScripts": {
-    "esbuild": false
+    "esbuild@0.28.1": true
   }
 }

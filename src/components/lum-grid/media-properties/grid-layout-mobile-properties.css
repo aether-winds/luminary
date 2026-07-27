@@ -1,0 +1,47 @@
+@property --lum-grid-layout-mobile-number-of-columns {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 4;
+}
+
+@property --lum-grid-layout-mobile-xsl-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --lum-grid-layout-mobile-sml-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --lum-grid-layout-mobile-mdm-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 2;
+}
+
+@property --lum-grid-layout-mobile-lrg-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 3;
+}
+
+@property --lum-grid-layout-mobile-xlg-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 3;
+}
+
+@property --lum-grid-layout-mobile-xxl-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 3;
+}
+
+@property --lum-grid-layout-mobile-ful-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 4;
+}

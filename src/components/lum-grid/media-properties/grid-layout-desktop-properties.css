@@ -1,0 +1,53 @@
+@property --lum-grid-layout-desktop-number-of-columns {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 12;
+}
+
+@property --lum-grid-layout-desktop-xxs-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --lum-grid-layout-desktop-xsl-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 3;
+}
+
+@property --lum-grid-layout-desktop-sml-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 4;
+}
+
+@property --lum-grid-layout-desktop-mdm-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 6;
+}
+
+@property --lum-grid-layout-desktop-lrg-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 8;
+}
+
+@property --lum-grid-layout-desktop-xlg-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 9;
+}
+
+@property --lum-grid-layout-desktop-xxl-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 11;
+}
+
+@property --lum-grid-layout-desktop-ful-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 12;
+}

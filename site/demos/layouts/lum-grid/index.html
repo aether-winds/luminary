@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LDS - Luminary Development Service</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="/assets/luminary.css" rel="stylesheet" type="text/css">
+        <link href="/assets/styles.css" rel="stylesheet" type="text/css">
+        <link href="/demos/layouts/lum-grid/index.css" rel="stylesheet" type="text/css">
+    </head>
+
+    <body is="lum-application">
+        <header>
+            <h1>LumGrid</h1>
+            <a href="/"><- Back</a>
+        </header>
+        <main>
+            <h3>Grid Layout</h3>
+            
+            <h5>Sizes</h5>
+            
+            <div class="lum-example lum-example-layout-basics">
+                <lum-grid><div class="lum-grid-layout-xxs">xss</div></lum-grid>
+                <lum-grid><div class="lum-grid-layout-xsl">xsl</div></lum-grid>
+                <lum-grid><div class="lum-grid-layout-sml">sml</div></lum-grid>
+                <lum-grid><div class="lum-grid-layout-mdm">mdm</div></lum-grid>
+                <lum-grid><div class="lum-grid-layout-lrg">lrg</div></lum-grid>
+                <lum-grid><div class="lum-grid-layout-xlg">xlg</div></lum-grid>
+                <lum-grid><div class="lum-grid-layout-xxl">xxl</div></lum-grid>
+                <lum-grid><div class="lum-grid-layout-ful">ful</div></lum-grid>
+            </div>
+
+            <h3>Example Layouts</h3>
+
+            <h5>Vanilla Layout</h5>
+
+            <lum-grid class="lum-example lum-example-vanilla-layout">
+                <div class="lum-grid-layout-ful">head</div>
+                <div class="lum-grid-layout-sml lum-grid-layout-desktop-xsl">side</div>
+                <div class="lum-grid-layout-lrg lum-grid-layout-desktop-xlg">main</div>
+            </lum-grid>
+
+            <h5>Two Column Layout</h5>
+
+            <lum-grid class="lum-example lum-example-vanilla-layout">
+                <div class="lum-grid-layout-mdm">col</div>
+                <div class="lum-grid-layout-mdm">col</div>
+            </lum-grid>
+
+            <h5>Three Column Layout</h5>
+
+            <lum-grid class="lum-example lum-example-vanilla-layout">
+                <div class="lum-grid-layout-sml">col</div>
+                <div class="lum-grid-layout-mdm lum-grid-layout-tablet-xsl lum-grid-layout-desktop-sml">col</div>
+                <div class="lum-grid-layout-sml">col</div>
+            </lum-grid>
+
+            <h5>Four Column Layout</h5>
+
+            <lum-grid class="lum-example lum-example-vanilla-layout">
+                <div class="lum-grid-layout-xsl">col</div>
+                <div class="lum-grid-layout-xsl">col</div>
+                <div class="lum-grid-layout-xsl">col</div>
+                <div class="lum-grid-layout-xsl">col</div>
+            </lum-grid>
+        </main>
+
+        <script src="/assets/luminary.js" type="module"></script>
+    </body>
+</html>

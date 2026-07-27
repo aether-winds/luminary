@@ -1,0 +1,9 @@
+@import "./media-properties/grid-layout-mobile-properties.css";
+@import "./media-properties/grid-layout-tablet-properties.css";
+@import "./media-properties/grid-layout-desktop-properties.css";
+
+@property --lum-grid-layout-template-column-size {
+    syntax: "*"; /* TODO: figure this out as * is too permissive */
+    inherits: true;
+    initial-value: 1fr;
+}

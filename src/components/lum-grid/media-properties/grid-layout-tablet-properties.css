@@ -1,0 +1,53 @@
+@property --lum-grid-layout-tablet-number-of-columns {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 8;
+}
+
+@property --lum-grid-layout-tablet-xxs-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@property --lum-grid-layout-tablet-xsl-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 2;
+}
+
+@property --lum-grid-layout-tablet-sml-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 3;
+}
+
+@property --lum-grid-layout-tablet-mdm-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 4;
+}
+
+@property --lum-grid-layout-tablet-lrg-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 5;
+}
+
+@property --lum-grid-layout-tablet-xlg-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 6;
+}
+
+@property --lum-grid-layout-tablet-xxl-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 7;
+}
+
+@property --lum-grid-layout-tablet-ful-column-span {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 8;
+}

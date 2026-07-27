@@ -1,90 +1,46 @@
-@property --font-scale-base-size {
-    syntax: "<length>";
-    inherits: true;
-    initial-value: 16px;
-}
-
-@property --font-scale-base-letter-spacing {
-    syntax: "<length>";
-    inherits: true;
-    initial-value: 0%;
-}
-
-@property --font-scale-base-line-height {
-    syntax: "<number>";
-    inherits: true;
-    initial-value: 1.5;
-}
-
-@property --font-scale-interval {
-    syntax: "<integer>";
-    inherits: true;
-    initial-value: 0;
-}
-
-@property --font-scale-size-interval-ratio {
-    syntax: "<number>";
-    inherits: true;
-    initial-value: 1.25;
-    /*
-    - Minor Second: 1.067
-    - Major Second: 1.125
-    - Minor Third: 1.2
-    - Major Third: 1.25
-    - Perfect Fourth: 1.333
-    - Augmented Fourth: 1.414
-    - Perfect Fifth: 1.5
-    - Golden Ratio: 1.618
-    */
-}
-
-@property --font-scale-letter-spacing-percentage {
-    syntax: "<length>";
-    inherits: true;
-    initial-value: 0.5%;
-}
+@import "./styles/properties.css";
+@import "./components/lum-components.properties.css";
 
 :root {
-    /* Colors */
     color-scheme: light dark;
 
-    /* Background Colors */
-    --color-background-base: light-dark(hsl(0 0% 90% / 1), hsl(0 0% 0% / 1));  
-    --color-background-medium: hsl(from var(--color-background-base) h s calc(l + 5) / 1);
-    --color-background-high: hsl(from var(--color-background-base) h s calc(l + 10) / 1);
+    /* COLORS - Base */
+    --lum-color-primary: light-dark(var(--lum-color-primary-light), var(--lum-color-primary-dark));
+    --lum-color-secondary: light-dark(var(--lum-color-secondary-light), var(--lum-color-secondary-dark));
+    --lum-color-danger: light-dark(var(--lum-color-danger-light), var(--lum-color-danger-dark));
+    --lum-color-warning: light-dark(var(--lum-color-warning-light), var(--lum-color-warning-dark));
+    --lum-color-success: light-dark(var(--lum-color-success-light), var(--lum-color-success-dark));
+    --lum-color-info: light-dark(var(--lum-color-info-light), var(--lum-color-info-dark));
 
-    /* Border, highlight and shadow colors */
-    --color-border: light-dark(var(--color-background-base), hsl(0 0 30% / 1));
-    --color-highlight: light-dark(hsl(0 0% 100% / 1), hsl(0 0% 40% / 1));
-    --color-shadow: 0px 2px 2px hsl(0 0 0 / 0.07), 0px 4px 4px hsl(0 0 0 / 0.15);
+    /* COLORS - Background */
+    --lum-color-background-base: light-dark(var(--lum-color-background-light-base), var(--lum-color-background-dark-base));
+    --lum-color-background-medium: light-dark(var(--lum-color-background-light-medium), var(--lum-color-background-dark-medium));
+    --lum-color-background-high: light-dark(var(--lum-color-background-light-high),var(--lum-color-background-dark-high));
 
-    /* Gradient colors */
-    --color-gradient: linear-gradient(0deg, var(--color-background-medium) 95%, var(--color-background-high));
-    --color-gradient-hover: linear-gradient(0deg, var(--color-background-medium), var(--color-background-high));
+    /* COLORS - Text */
+    --lum-color-text-base: light-dark(var(--lum-color-text-light-base), var(--lum-color-text-dark-base));
+    --lum-color-text-medium: light-dark(var(--lum-color-text-light-medium), var(--lum-color-text-dark-medium));
+    --lum-color-text-high: light-dark(var(--lum-color-text-light-high), var(--lum-color-text-dark-high));
+    --lum-color-text-muted: light-dark(
+        hsl(from var(--lum-color-text-base) h s calc(l + 25) / 1),
+        hsl(from var(--lum-color-text-base) h s calc(l - 25) / 1),
+    );
 
-    /* Accent Colors */
-    --color-primary: light-dark(hsl(35 100% 50% / 1), hsl(35 100% 50% / 1));
-    --color-secondary: light-dark(hsl(200 100% 50% / 1), hsl(200 100% 50% / 1));
-    --color-danger: light-dark(hsl(0 100% 70% / 1), hsl(0 100% 30% / 1));
-    --color-warning: light-dark(hsl(60 100% 70% / 1), hsl(60 100% 30% / 1));
-    --color-success: light-dark(hsl(120 100% 70% / 1), hsl(120 100% 30% / 1));
-    --color-info: light-dark(hsl(180 100% 70% / 1), hsl(180 100% 30% / 1));
-
-    /* Text colors */
-    --color-text-base: contrast-color(var(--color-background-base));
-    --color-text-medium: contrast-color(var(--color-background-medium));
-    --color-text-high: contrast-color(var(--color-background-high));
-    --color-text-muted: light-dark(hsl(from var(--color-text-base) h s calc(l + 25) / 1), hsl(from var(--color-text-base) h s calc(l - 25) / 1));
-
+    /* COLORS - Border, highlight and shadow colors */
+    --lum-color-border: light-dark(var(--lum-color-border-light), var(--lum-color-border-dark));
+    --lum-color-highlight: light-dark(var(--lum-color-highlight-light), var(--lum-color-highlight-dark));
+    --lum-color-shadow-one: light-dark(var(--lum-color-shadow-one-light), var(--lum-color-shadow-one-dark));
+    --lum-color-shadow-two: light-dark(var(--lum-color-shadow-two-light), var(--lum-color-shadow-two-dark));
+    --lum-color-shadow: 0px 2px 2px var(--lum-color-shadow-one), 0px 4px 4px var(--lum-color-shadow-two);
  
     /* Fonts */
     font-family: "Hanken Grotesk", Arial, sans-serif;
     font-optical-sizing: auto;
-    font-size: var(--font-scale-base-size);
+    font-size: var(--lum-font-scale-base-size);
     font-style: normal;
     font-weight: 400;
-    letter-spacing: var(--font-scale-base-letter-spacing);
-    line-height: var(--font-scale-base-line-height);
+    letter-spacing: var(--lum-font-scale-base-letter-spacing);
+    line-height: var(--lum-font-scale-base-line-height);
 }
 
 *, *::before, *::after {
@@ -94,15 +50,15 @@
     padding: 0;
 
     /* Fonts */
-    font-size: calc(1rem * pow(var(--font-scale-size-interval-ratio), var(--font-scale-interval)));
+    font-size: calc(1rem * pow(var(--lum-font-scale-size-interval-ratio), var(--lum-font-scale-interval)));
     font-weight: normal;
-    letter-spacing: calc(var(--font-scale-base-letter-spacing) - (var(--font-scale-letter-spacing-percentage) * var(--font-scale-interval)));
-    line-height: calc(var(--font-scale-base-line-height) - (var(--font-scale-interval) / 10));
+    letter-spacing: calc(var(--lum-font-scale-base-letter-spacing) - (var(--lum-font-scale-letter-spacing-percentage) * var(--_font-scale-interval)));
+    line-height: calc(var(--lum-font-scale-base-line-height) - (var(--lum-font-scale-interval) / 10));
 }
 
 body {
-    background-color: var(--color-background-base);
-    color: var(--color-text-base);
+    background-color: var(--lum-color-background-base);
+    color: var(--lum-color-text-base);
 
     min-height: 100vh;
     min-width: 100vw;
@@ -113,31 +69,35 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-    --font-scale-interval: 5;
+    --lum-font-scale-interval: 5;
 }
 
 h2 {
-    --font-scale-interval: 4;
+    --lum-font-scale-interval: 4;
 }
 
 h3 {
-    --font-scale-interval: 3;
+    --lum-font-scale-interval: 3;
 }
 
 h4 {
-    --font-scale-interval: 2;
+    --lum-font-scale-interval: 2;
 }
 
 h5 {
-    --font-scale-interval: 1;
+    --lum-font-scale-interval: 1;
 }
 
 h6 {
-    --font-scale-interval: 0;
+    --lum-font-scale-interval: 0;
 }
 
 .text-small {
-    --font-scale-interval: -1;
+    --lum-font-scale-interval: -1;
+}
+
+.text-muted {
+    color: var(--lum-color-text-muted);
 }
 
 /**
