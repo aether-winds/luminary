@@ -48,7 +48,7 @@
 :host > section > slot::slotted(.lum-grid-layout-mobile-xxl)    { --_span-column-number: var(--_grid-span-xxl); }
 :host > section > slot::slotted(.lum-grid-layout-mobile-ful)    { --_span-column-number: var(--_grid-span-ful); }
 
-@container --_column-grid (width >= 768px) {
+@container --_column-grid (width >= 426px) {
     :host > section {
         --_number-of-columns: var(--lum-grid-layout-tablet-number-of-columns);
 
@@ -72,7 +72,7 @@
     :host > section > slot::slotted(.lum-grid-layout-tablet-ful) { --_span-column-number: var(--_grid-span-ful); }
 }
 
-@container --_column-grid (width >= 1366px) {
+@container --_column-grid (width >= 1024px) {
     :host > section {
         --_number-of-columns: var(--lum-grid-layout-desktop-number-of-columns);
 
