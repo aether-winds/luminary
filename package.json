@@ -1,28 +1,32 @@
 {
   "name": "@aether-winds/luminary",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "A lightweight, dependency-free web component library.",
   "type": "module",
-  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Patrick Ortiz",
+      "email": "pogithub@gmail.com"
+    }
+  ],
+  "license": "See LICENSE.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aether-winds/luminary.git"
   },
   "files": [
-    "LICENSE"
+    "LICENSE.md"
   ],
   "engines": {
     "node": ">=26",
     "npm": ">=11"
   },
   "devDependencies": {
-    "@types/node": "26.1.1",
-    "esbuild": "0.28.1",
-    "tsx": "4.23.1",
-    "typescript": "7.0.2"
+    "@types/node": "^26.1.2",
+    "esbuild": "0.28.1"
   },
   "scripts": {
-    "dev": "./scripts/start-dev-server.sh"
+    "dev": "./src/scripts/start-dev-server.sh"
   },
   "allowScripts": {
     "esbuild@0.28.1": true

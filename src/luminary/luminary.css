@@ -1,0 +1,41 @@
+@import "./styles/properties.css";
+@import "./components/component-properties.css";
+
+:root {
+    color-scheme: light dark;
+
+    /**
+     * Colors
+     */
+    --lum-color-background: light-dark(
+        hsl(from var(--lum-color-primary) h s calc(10 / 12 * 100%) / 1),
+        hsl(from var(--lum-color-secondary) h s calc(1 / 12 * 100%) / 1)
+    );
+
+    --lum-color-text: light-dark(
+        hsl(0 0% 0% / 1),
+        hsl(0 100% 100% / 1)
+    );
+}
+
+body {
+    background-color: var(--lum-color-background);
+    color: var(--lum-color-text);
+
+    font-family: "Hanken Grotesk", Arial, sans-serif;
+    font-optical-sizing: auto;
+    font-size: var(--lum-font-size);
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: var(--lum-font-letter-spacing);
+    line-height: var(--lum-font-line-height);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: calc(1rem * pow(var(--lum-font-typescale), var(--lum-font-typescale-interval)));
+    letter-spacing: calc(var(--lum-font-letter-spacing) - (var(--lum-font-letter-spacing-interval) * var(--lum-font-typescale-interval)));
+    line-height: calc(var(--lum-font-line-height) - (var(--lum-font-typescale-interval) / 10));
+}

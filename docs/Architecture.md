@@ -78,6 +78,37 @@ luminary/
 ├── package.json
 ├── package-lock.json
 └── LICENSE
+
+src/                                    (base source directory)
+├── demo/                               (dev server source directory; simple html static server which serves the site we're designing as the development playground)
+│   ├── lum-drawer                      (component documentation page and assets)
+│   │   ├── index.html                  (documentation page; should import base luminary.css and luminary.js)
+│   │   ├── script.ts                   (script specific to the documentation page; optional; might be useful to demonstrate examples)
+│   │   └── styles.css                  (styles specific to the documentation page; optional; might be useful to demonstrate examples)
+│   ├── .../                            (additional documentation pages)
+│   └── index.html                      (homepage)
+├── luminary/                           (luminary source directory)
+│   ├── components/                     (javascript enhancement components; expected to utilize css props from luminary.css)
+│   │   ├── lum-drawer/                 (a component folder)
+│   │   │   ├── lum-drawer.elem.css     (element stylesheet; imported as text; shadow.adoptedStylesheets = [stylesheet])
+│   │   │   ├── lum-drawer.elem.html    (element html; imported as text; shadow.innerHTML = html)
+│   │   │   ├── lum-drawer.elem.ts      (element native custom component code)
+│   │   │   └── lum-drawer.prop.css     (element @property css definitions with defaults; override in general :root or in component css)
+│   │   ├── .../                        (additional component directories)
+│   │   ├── components.elem.ts          (barrel file for all of the typescript imports; this ultimately becomes the final luminary.js file)
+│   │   └── components.prop.css         (barrel file for all of the prop files; these should build into a separate css file and only be included if author uses javascript)
+│   ├── styles                          (basic luminary.css components; defines property tokens for design override)
+│   │   ├── lum-button/                 (a component folder)
+│   │   │   ├── lum-button-variant.css  (variant of the component; there can be zero to many; barrel file dictates import order)
+│   │   │   └── lum-button.css          (component file; acts as the barrel file as well as it matches folder name)
+│   │   ├── .../                        (additional component directories)
+│   │   ├── color.prop.css              (color properties; defined @property definitions with established design fallbacks)
+│   │   ├── font.prop.css               (font properties; defined @property definitions with established design fallbacks)
+│   │   ├── ...                         (additional property files)
+│   │   └── root.css                    (barrel file for the styles directory; i don't like index, but not sure about this name either)
+│   ├── luminary.css                    (luminary.css root file; this is the build target and is meant to be the final barrel file of the project for the base css)
+│   └── luminary.ts                     (luminary.js root file; this is the build target and is meant to be the final barrel file of the project for the javascript enhancements)
+└── scripts/                            (custom scripts directory; utility scripts, build scripts, workflow scripts, etc)
 ```
 
 Directory responsibilities:

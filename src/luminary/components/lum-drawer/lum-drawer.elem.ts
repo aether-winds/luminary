@@ -1,7 +1,7 @@
-import styles from './lum-application.elem.css';
-import html from './lum-application.elem.html';
+import styles from './lum-drawer.elem.css';
+import html from './lum-drawer.elem.html';
 
-export class LumApplication extends HTMLBodyElement {
+export class LumDrawer extends HTMLElement {
     private shadow: ShadowRoot;
 
     constructor() {

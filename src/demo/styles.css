@@ -1,0 +1,69 @@
+body > header {
+    background-color: light-dark(
+        hsl(from var(--lum-color-background) h s calc(l + 5) / 1),
+        hsl(from var(--lum-color-background) h s calc(l + 10) / 1)
+    );
+    color: color-contrast(var(--lum-color-secondary));
+    padding: var(--lum-layout-gap);
+    box-shadow:
+        0px 2px 2px hsl(0 0% 0% / 0.07),
+        0px 4px 4px hsl(0 0% 0% / 0.15);
+}
+
+body > header > h1 {
+    color: light-dark(
+        hsl(from var(--lum-color-secondary) h s calc(l - 20) /  1),
+        hsl(from var(--lum-color-primary) h s calc(l + 20) /  1)
+    );
+    --lum-font-typescale-interval: 2;
+}
+
+body > main {
+    padding: var(--lum-layout-gap) var(--lum-layout-gap) 0;
+}
+
+body > main > section > header > h2 {
+    --lum-font-typescale-interval: 1;
+}
+
+/***
+TESTING ONLY
+***/
+.color-card {
+    margin-bottom: var(--lum-layout-gap);
+    padding: 10px;
+    box-shadow:
+        0px 2px 2px hsl(0 0% 0% / 0.07),
+        0px 4px 4px hsl(0 0% 0% / 0.15);
+
+    --lum-color-card-color: light-dark(
+        hsl(from var(--lum-color-background) h s calc(l + 10) / 1),
+        hsl(from var(--lum-color-background) h s calc(l + 10) / 1)
+    );
+    background-color: hsl(from var(--lum-color-card-color) h s l / 1);
+    color: color-contrast(var(--lum-color-card-color));
+
+    /* &.primary {
+        --lum-color-card-color: var(--lum-default-color-primary);
+    }
+
+    &.secondary {
+        --lum-color-card-color: var(--lum-default-color-secondary);
+    }
+
+    &.danger {
+        --lum-color-card-color: var(--lum-default-color-danger);
+    }
+
+    &.warning {
+        --lum-color-card-color: var(--lum-default-color-warning);
+    }
+
+    &.success {
+        --lum-color-card-color: var(--lum-default-color-success);
+    }
+
+    &.info {
+        --lum-color-card-color: var(--lum-default-color-info);
+    } */
+}

@@ -1,0 +1,47 @@
+@property --lum-color-dark-background {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(from #131313 h s l / 1);
+}
+
+@property --lum-color-dark-text {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(0 0% 90% / 1);
+}
+
+@property --lum-color-dark-primary {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(35 100% 50% / 1);
+}
+
+@property --lum-color-dark-secondary {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(200 100% 50% / 1);
+}
+
+@property --lum-color-dark-danger {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(0 100% 30% / 1);
+}
+
+@property --lum-color-dark-warning {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(60 100% 40% / 1);
+}
+
+@property --lum-color-dark-success {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(120 100% 30% / 1);
+}
+
+@property --lum-color-dark-info {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(180 100% 30% / 1);
+}

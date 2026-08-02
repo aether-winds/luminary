@@ -1,0 +1,71 @@
+/**
+ * Base font size for the site.
+ * Represents 1rem throughout the site.
+ * Default: 16px
+ */
+@property --lum-font-size {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 16px;
+}
+
+/**
+ * Base letter spacing for the site.
+ * Default: 0%
+ */
+@property --lum-font-letter-spacing {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0%;
+}
+
+/**
+ * Scale at which to modify letter spacing when font typescale interval increases.
+ * Default: 0.5%
+ */
+@property --lum-font-letter-spacing-interval {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0.5%;
+}
+
+/**
+ * Base line height for the site.
+ * Default: 1.5
+ */
+@property --lum-font-line-height {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1.5;
+}
+
+/**
+ * Base typescale for the site.
+ * Default: 1.25 (Major Third)
+ * Non-exclusive default options.
+ * - Minor Second: 1.067
+ * - Major Second: 1.125
+ * - Minor Third: 1.2
+ * - Major Third: 1.25
+ * - Perfect Fourth: 1.333
+ * - Augmented Fourth: 1.414
+ * - Perfect Fifth: 1.5
+ * - Golden Ratio: 1.618
+ */
+@property --lum-font-typescale {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1.25;
+}
+
+/**
+ * Base font scale interval.
+ * Set this to an integer to increase (positive) or decrease (negative) the font
+ * size of any element based on the typescale defined.
+ * Default: 0
+ */
+@property --lum-font-typescale-interval {
+    syntax: "<integer>";
+    inherits: false;
+    initial-value: 0;
+}
