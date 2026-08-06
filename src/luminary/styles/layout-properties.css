@@ -1,4 +1,4 @@
-@property --lum-layout-gap {
+@property --lum-base-layout-gap {
     syntax: "<length>";
     inherits: true;
     initial-value: 24px;

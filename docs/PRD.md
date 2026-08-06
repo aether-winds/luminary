@@ -1,250 +1,402 @@
-# Product Requirements Document (PRD)
+# Luminary Product Requirements Document (PRD)
 
-## Document Control
+## 1. Product Overview
 
-- Product: Luminary Components Library
-- Repository: aether-winds/luminary
-- Date: 2026-07-18
-- Status: Draft v0.2
-- Owner: Product + Engineering
-- Companion Document: Engineering Architecture Document (separate issue)
+## Product Name
 
-## Executive Summary
+Luminary
 
-Luminary is a lightweight, dependency-free JavaScript component library built with native Web Components (Custom Elements v1 + Shadow DOM). The product goal is to provide a practical set of reusable UI primitives that work in plain HTML and can be consumed by any framework without runtime dependencies.
+## Product Description
 
-Luminary should optimize for simplicity, predictable APIs, and portability while maintaining strong accessibility and performance defaults.
+Luminary is a flexible UI foundation that brings design-system thinking to native HTML, CSS, and JavaScript.
 
-## Problem Statement
+It provides a shared foundation for designers and developers to create consistent, adaptable, and accessible web interfaces without introducing unnecessary complexity.
 
-Teams often need a UI foundation that is:
+Luminary focuses on closing the gap between design intent and development implementation by creating a common language between disciplines.
 
-- Framework-agnostic
-- Small and dependency-free
-- Easy to theme and integrate
-- Built on web standards with long-term interoperability
+---
 
-Existing component libraries can impose framework lock-in, large bundles, or complex build/runtime requirements. Luminary solves this by providing standards-based components with clear contracts (attributes, properties, events, and slots) and minimal operational overhead.
+# 2. Vision Statement
 
-## Target Users and Personas
+Luminary exists to make building thoughtful web experiences simpler.
 
-### Persona 1: Frontend Engineer (Platform)
+The framework provides the structure, tools, and conventions needed for teams to move from idea to implementation while preserving flexibility, creativity, and ownership.
 
-- Builds and maintains shared UI foundations.
-- Needs stable APIs, versioning discipline, and predictable integration in multiple app stacks.
+Luminary does not replace the web platform.
 
-### Persona 2: Product Engineer
+It enhances it.
 
-- Delivers product features quickly.
-- Needs copy/paste-simple usage patterns and clear component docs.
+---
 
-### Persona 3: Designer-Developer
+# 3. Product Positioning
 
-- Implements design systems.
-- Needs reliable theming hooks via CSS custom properties and slots.
+## Position
 
-### Persona 4: Technical Lead / Architect
+Luminary is a standards-based UI foundation that brings design-system thinking to native HTML, CSS, and JavaScript.
 
-- Evaluates long-term maintainability and compatibility.
-- Needs dependency minimization and standards-based architecture.
+Luminary operates at the interface layer of web applications. It provides the visual language, component styles, and interaction patterns needed to create consistent user experiences regardless of the application architecture above it.
 
-## Goals
+Luminary is designed to work alongside existing development approaches rather than replace them.
 
-- Deliver an initial set of production-ready, dependency-free web components.
-- Define consistent component API conventions for attributes, properties, events, and slots.
-- Define a reusable inheritance model with a shared base element and component-specific variants.
-- Ensure accessibility and keyboard support are first-class requirements.
-- Support modern evergreen browsers with documented compatibility expectations.
-- Establish a clear distribution workflow with publish automation deferred to GitHub pipelines.
-- Provide measurable adoption and quality outcomes.
+---
 
-## Non-Goals
+## Core Value Proposition
 
-- Framework-specific wrappers in v1 (React, Vue, Angular wrappers are out of scope for initial release).
-- Building a full visual design system for every product use case.
-- Supporting legacy browsers outside defined compatibility targets.
+Luminary helps small teams build high-quality interfaces by providing:
 
-## Functional Requirements
+* A shared design and development language.
+* A flexible foundation based on native web technologies.
+* Consistent patterns without unnecessary restrictions.
+* A system that handles complexity while exposing meaningful choices.
 
-### Component Behavior Standards
+---
 
-- Each component must encapsulate styles via Shadow DOM.
-- Components must expose predictable states via attributes/properties (for example: disabled, variant, size).
-- Components must render sensible defaults when optional configuration is omitted.
-- Components must fail safely with invalid or missing input.
-- All components must inherit from a shared `LumElement` base class.
-- Alternative components must inherit from their primary component (for example: `LumCancelButton` extends `LumButton`).
+## Relationship to Application Frameworks
 
-### API Conventions
+Luminary does not compete with application frameworks.
 
-- Public tag naming uses lum- prefix.
-- Public API surface for each component includes:
-  - Attributes
-  - Corresponding JS properties where applicable
-  - Named/custom events
-  - Supported slots
-  - CSS custom properties using the `--lum-` prefix as the primary style customization contract
-- Attribute changes must reactively update UI state.
-- part exposure is not required for v1 and should only be used by documented exception.
+Frameworks such as React, Vue, and Angular provide application architecture, rendering approaches, state management patterns, and development workflows.
 
-### Events
+Luminary provides the interface foundation those applications can use.
 
-- Interactive components must dispatch semantic custom events where needed (for example: change, open, close, select).
-- Event payloads must be documented and stable.
-- Events should bubble and be composed when integration across shadow boundaries is expected.
+Luminary can be used with:
 
-### Slots
+* Static HTML websites.
+* Native JavaScript applications.
+* React applications.
+* Vue applications.
+* Angular applications.
+* Other web-based architectures.
 
-- Components that accept arbitrary content must define default/named slots.
-- Slot behavior and fallback content must be documented.
+The goal is not to replace an application's framework.
 
-### Accessibility
+The goal is to provide a consistent design and development language across implementations.
 
-- Interactive components must support keyboard operation.
-- ARIA roles/states and labeling requirements must be defined per component.
-- Focus management behavior must be specified for complex components.
+---
 
-### Documentation Requirements
+## Future Compatibility
 
-For each component, documentation must include:
+Because Luminary is built on native web standards, framework-specific integrations may be introduced in the future if there is demonstrated need.
 
-- Purpose and usage examples
-- Attributes and properties
-- Events
-- Slots
-- CSS custom properties
-- Any approved part exceptions and rationale (only when used)
-- Accessibility notes
+Potential future additions may include:
 
-Test files must be co-located with their component file and follow the `lum-*.test.ts` naming convention.
+* Framework adapters.
+* Translation layers.
+* Developer experience improvements.
 
-## Non-Functional Requirements
+These integrations should enhance adoption without changing Luminary's underlying standards-based foundation.
 
-### Browser Support
+---
 
-- Support latest stable versions of major evergreen browsers:
-  - Chromium-based browsers
-  - Firefox
-  - Safari
-- Any browser-specific caveats must be documented.
+# 4. Problem Statement
 
-### Performance
+Modern web development requires translating design intent into technical implementation.
 
-- Zero runtime dependencies.
-- Component initialization should avoid unnecessary layout thrashing.
-- Keep bundle size small and monitor aggregate library size over time.
-- Rendering and interaction should remain responsive under typical UI workloads.
+Designers think in terms of:
 
-### Accessibility and Compliance
+* Visual hierarchy
+* Relationships
+* Composition
+* Consistency
+* User experience
 
-- Target WCAG 2.1 AA alignment for component behavior.
-- Ensure sufficient default color contrast in shipped examples/themes.
-- Validate keyboard navigation and screen-reader behavior for interactive components.
+Developers often translate these ideas into:
 
-### Reliability and Maintenance
+* CSS rules
+* Breakpoint decisions
+* Component structures
+* Layout calculations
+* Implementation patterns
 
-- Public APIs must follow semantic versioning.
-- Breaking changes require migration notes.
-- Test coverage should prioritize core behaviors and accessibility-critical paths.
-- TypeScript is the source language for all components and library code.
+This translation introduces friction, slows iteration, and can create inconsistencies between intended designs and final products.
 
-## Initial Component Inventory (Proposed)
+Existing solutions often require teams to choose between:
 
-### Foundations
+* Flexible but inconsistent custom development.
+* Highly opinionated systems with limited adaptability.
+* Large design systems that introduce unnecessary overhead.
 
-- lum-button
-- lum-input
-- lum-textarea
-- lum-select
-- lum-checkbox
-- lum-radio
-- lum-switch
+Luminary addresses this gap by providing a flexible interface foundation where design intent and development implementation share the same underlying system.
 
-### Feedback and Status
+---
 
-- lum-alert
-- lum-badge
-- lum-spinner
+# 5. Target Users
 
-### Layout and Structure
+## Primary Audience
 
-- lum-card
-- lum-divider
-- lum-tabs
-- lum-accordion
+Small product teams building applications, websites, or digital products that need to move quickly while maintaining quality and consistency.
 
-### Overlay and Navigation
+These teams may not have dedicated design-system resources and need a reliable starting point.
 
-- lum-modal
-- lum-tooltip
-- lum-dropdown
+---
 
-## Distribution and Release Workflow
+## Designers
 
-### Distribution Targets
+Designers use Luminary to:
 
-- Maintain package-ready artifacts with publishing currently deferred.
-- Currently produces ESM output via the TypeScript compiler (`tsc`). Multi-format output (ESM, CJS, and a browser-ready build) is planned for a future milestone.
+* Work within a shared visual system.
+* Refine design decisions through system-level controls.
+* Create consistent experiences.
+* Collaborate with developers using shared concepts.
 
-### Packaging Requirements
+---
 
-- Include clear package metadata (name, version, license MIT, repository, keywords).
-- Include changelog/release notes process.
-- Include README usage and install guidance.
+## Developers
 
-### Release Workflow (High-Level)
+Developers use Luminary to:
 
-1. Merge validated changes to main branch.
-2. Run automated checks (tests, lint/build validation where applicable).
-3. Bump version based on semantic versioning.
-4. Generate or update release notes/changelog.
-5. Trigger GitHub release pipeline when governance is finalized.
-6. Publish artifact from CI only (no manual local publish flow).
-7. Tag release in source control.
+* Quickly establish application structure.
+* Build using native web technologies.
+* Apply consistent components.
+* Customize the system without rewriting foundational styles.
 
-## Success Metrics
+---
 
-### Adoption
+## Team Workflow
 
-- NPM downloads trend upward month-over-month after initial release.
-- Number of internal/external projects using Luminary components.
+Luminary supports parallel collaboration.
 
-### Product Quality
+Developers can begin implementing application structure while designers refine the visual system.
 
-- Defect rate for component API regressions remains below agreed threshold.
-- Accessibility issues discovered post-release decrease over successive versions.
+Both disciplines work within the same framework instead of translating between separate systems.
 
-### Developer Experience
+---
 
-- Time-to-first-component-use is low (install to rendered component in minutes).
-- Documentation completeness across all shipped components reaches 100% of required API sections.
+# 6. Product Principles
 
-### Delivery
+## Bridge, Don't Replace
 
-- Initial component inventory delivered in phased milestones aligned with project board planning.
+Luminary exists to connect disciplines and technologies, not replace them.
 
-## Risks and Assumptions
+It bridges:
 
-### Assumptions
+* Design intent and implementation.
+* Designers and developers.
+* Native web technologies and application frameworks.
 
-- Initial consumers prioritize framework-agnostic integration.
-- JavaScript-only implementation is acceptable for v1 audience.
+Luminary should remain useful regardless of the tools surrounding it.
 
-### Risks
+---
 
-- Scope creep from adding too many components too early.
-- Accessibility quality variance across complex interactive components.
-- Browser inconsistencies in edge-case shadow/slot behavior.
+## Design Intent Over Implementation Detail
 
-### Mitigations
+Users should interact with meaningful design concepts rather than unnecessary implementation complexity.
 
-- Phase component delivery and enforce quality gates per component.
-- Define and run accessibility checks before release.
-- Maintain compatibility matrix and known issues list.
+---
 
-## Open Questions
+## Intelligent Constraints
 
-- Which components are required for v1 launch versus v1.x roadmap?
-- What explicit browser version floor should be committed publicly?
-- Should framework wrappers be explored as separate packages after v1 stabilization?
-- What are final quality gates for release readiness (coverage, accessibility checks, docs completeness)?
+Luminary provides thoughtful defaults and conventions while preserving author control.
+
+The framework manages complexity internally while exposing meaningful customization.
+
+---
+
+## Systems Over Templates
+
+Luminary provides foundational tools rather than complete website solutions.
+
+Users create unique experiences using a consistent system.
+
+---
+
+## CSS First
+
+Visual design and layout should be achievable through CSS whenever possible.
+
+JavaScript exists to enhance functionality, not replace the foundation.
+
+---
+
+## Accessible by Default
+
+Accessibility should be considered part of the system rather than an additional implementation step.
+
+---
+
+# 7. Product Scope
+
+## MVP Definition
+
+The initial version of Luminary is a design system showcase demonstrating the framework's core philosophy.
+
+The MVP focuses on demonstrating:
+
+* Visual consistency.
+* Design-system thinking.
+* Native web implementation.
+* Documentation quality.
+* Practical component usage.
+
+The goal is not to provide a complete production ecosystem.
+
+---
+
+# 8. MVP Features
+
+## Design Foundation
+
+The MVP includes:
+
+* Color system
+* Typography system
+* Spacing system
+* Surface and elevation system
+* Theme support
+* Responsive layout foundation
+* Grid system
+
+---
+
+## UI Components
+
+The MVP includes a curated set of reusable interface components.
+
+Components should demonstrate:
+
+* Consistent visual language.
+* Semantic HTML usage.
+* Customization options.
+* Responsive behavior.
+* Accessibility considerations.
+
+---
+
+## Documentation
+
+Documentation is a primary feature.
+
+Documentation should provide:
+
+* Clear examples.
+* API references.
+* Usage guidance.
+* Customization information.
+* Component demonstrations.
+
+---
+
+## Cookbook
+
+The Cookbook demonstrates practical compositions built using Luminary components.
+
+Examples include:
+
+* Headers
+* Sidebars
+* Forms
+* Checklists
+* Common interface structures
+
+The Cookbook teaches composition without becoming a template library.
+
+---
+
+# 9. Documentation Philosophy
+
+Luminary documentation prioritizes clarity and usability.
+
+Documentation should be:
+
+* Easy to scan.
+* Human readable.
+* Example-driven.
+* Reference-oriented.
+* Concise.
+
+Documentation should favor:
+
+* Code examples.
+* Tables.
+* Lists.
+* API references.
+* Practical demonstrations.
+
+Documentation should avoid:
+
+* Excessive explanation.
+* Marketing language.
+* Abstract descriptions without examples.
+
+Each documented feature should answer:
+
+1. What is it?
+2. How do I use it?
+3. How do I customize it?
+4. What options exist?
+
+---
+
+# 10. Component Philosophy
+
+Luminary focuses on reusable UI components.
+
+The framework provides:
+
+* Foundational systems.
+* UI components.
+* Design primitives.
+
+The framework does not attempt to provide complete application compositions.
+
+Composition patterns are demonstrated separately through the Cookbook.
+
+---
+
+# 11. Out of Scope
+
+The MVP does not include:
+
+* Community contributions.
+* User-submitted components.
+* Complete application templates.
+* Large-scale component catalogs.
+* Enterprise tooling.
+* Advanced ecosystem features.
+
+These may be considered after validating adoption.
+
+---
+
+# 12. Future Roadmap
+
+Potential future expansion includes:
+
+* Published package distribution.
+* Formal versioning.
+* Expanded component coverage.
+* Framework adapters.
+* Community showcase.
+* Contribution workflows.
+* Additional documentation resources.
+
+Future development should preserve Luminary's core philosophy of simplicity, flexibility, and standards alignment.
+
+---
+
+# 13. Success Criteria
+
+Luminary is successful when it enables teams to create consistent, high-quality interfaces while reducing friction between design and development.
+
+A successful Luminary user should be able to:
+
+* Understand the framework quickly.
+* Begin building without unnecessary setup.
+* Create interfaces using familiar web technologies.
+* Customize the system without modifying internal source code.
+* Maintain consistency across their application.
+
+A successful Luminary team should experience:
+
+* Faster iteration between design and development.
+* Reduced translation between design concepts and implementation.
+* Greater consistency across interfaces.
+* More efficient collaboration.
+
+Luminary should demonstrate:
+
+* Clear component behavior.
+* Alignment with web standards.
+* Accessible implementation patterns.
+* Consistent visual language.
+* Documentation that enables independent learning.

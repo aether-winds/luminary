@@ -14,7 +14,7 @@
  * Default: 0%
  */
 @property --lum-font-letter-spacing {
-    syntax: "<length>";
+    syntax: "<percentage>";
     inherits: true;
     initial-value: 0%;
 }
@@ -24,7 +24,7 @@
  * Default: 0.5%
  */
 @property --lum-font-letter-spacing-interval {
-    syntax: "<length>";
+    syntax: "<percentage>";
     inherits: true;
     initial-value: 0.5%;
 }

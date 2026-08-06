@@ -1,69 +1,49 @@
-body > header {
-    background-color: light-dark(
-        hsl(from var(--lum-color-background) h s calc(l + 5) / 1),
-        hsl(from var(--lum-color-background) h s calc(l + 10) / 1)
-    );
-    color: color-contrast(var(--lum-color-secondary));
-    padding: var(--lum-layout-gap);
+header {
+    padding: 0 var(--lum-base-layout-gap) var(--lum-base-layout-gap);
+}
+
+header.page-header {
+    padding: var(--lum-base-layout-gap);
+}
+
+h1 { --lum-font-typescale-interval: 3; }
+h2 { --lum-font-typescale-interval: 2; }
+h3 { --lum-font-typescale-interval: 1; }
+
+.card {
+    --showcase-color: var(--lum-base-color-surface);
+
+    color: contrast-color(var(--showcase-color));
+    background-color: hsl(from var(--showcase-color) h s l / 1);
+    margin: 0 var(--lum-base-layout-gap) var(--lum-base-layout-gap);
+    border-radius: 1rem;
+    border-style: squircle;
     box-shadow:
-        0px 2px 2px hsl(0 0% 0% / 0.07),
-        0px 4px 4px hsl(0 0% 0% / 0.15);
+        0px 2px 2px hsl(from var(--lum-base-color-surface) h s calc(l - 10) / 0.17),
+        0px 4px 4px hsl(from var(--lum-base-color-surface) h s calc(1 - 10) / 0.09);
 }
 
-body > header > h1 {
-    color: light-dark(
-        hsl(from var(--lum-color-secondary) h s calc(l - 20) /  1),
-        hsl(from var(--lum-color-primary) h s calc(l + 20) /  1)
-    );
-    --lum-font-typescale-interval: 2;
+.card > h3 {
+    padding: var(--lum-base-layout-gap);
 }
 
-body > main {
-    padding: var(--lum-layout-gap) var(--lum-layout-gap) 0;
+.card > .swatch {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    height: 75px;
+    border-top: 1px solid black;
 }
 
-body > main > section > header > h2 {
-    --lum-font-typescale-interval: 1;
+.card > .swatch > .hue {
+    border-right: 1px solid black;
 }
 
-/***
-TESTING ONLY
-***/
-.color-card {
-    margin-bottom: var(--lum-layout-gap);
-    padding: 10px;
-    box-shadow:
-        0px 2px 2px hsl(0 0% 0% / 0.07),
-        0px 4px 4px hsl(0 0% 0% / 0.15);
-
-    --lum-color-card-color: light-dark(
-        hsl(from var(--lum-color-background) h s calc(l + 10) / 1),
-        hsl(from var(--lum-color-background) h s calc(l + 10) / 1)
-    );
-    background-color: hsl(from var(--lum-color-card-color) h s l / 1);
-    color: color-contrast(var(--lum-color-card-color));
-
-    /* &.primary {
-        --lum-color-card-color: var(--lum-default-color-primary);
-    }
-
-    &.secondary {
-        --lum-color-card-color: var(--lum-default-color-secondary);
-    }
-
-    &.danger {
-        --lum-color-card-color: var(--lum-default-color-danger);
-    }
-
-    &.warning {
-        --lum-color-card-color: var(--lum-default-color-warning);
-    }
-
-    &.success {
-        --lum-color-card-color: var(--lum-default-color-success);
-    }
-
-    &.info {
-        --lum-color-card-color: var(--lum-default-color-info);
-    } */
+.card > .swatch > .hue:last-child {
+    border-right: none;
 }
+
+.card.color-surface { --showcase-color: var(--lum-base-color-surface); }
+.card.color-primary { --showcase-color: var(--lum-base-color-primary); }
+.card.color-secondary { --showcase-color: var(--lum-base-color-secondary); }
+.card.color-text { --showcase-color: var(--lum-base-color-text); }
+.card.color-background { --showcase-color: var(--lum-base-color-background); }

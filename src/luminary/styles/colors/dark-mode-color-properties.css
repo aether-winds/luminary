@@ -1,47 +1,29 @@
-@property --lum-color-dark-background {
+@property --lum-base-dark-color-surface {
     syntax: "<color>";
     inherits: true;
-    initial-value: hsl(from #131313 h s l / 1);
+    initial-value: hsl(224 33% 9% / 1); /* #0F131E */
 }
 
-@property --lum-color-dark-text {
+@property --lum-base-dark-color-primary {
     syntax: "<color>";
     inherits: true;
-    initial-value: hsl(0 0% 90% / 1);
+    initial-value: hsl(217 91% 60% / 1); /* #3B82F6 */
 }
 
-@property --lum-color-dark-primary {
+@property --lum-base-dark-color-secondary {
     syntax: "<color>";
     inherits: true;
-    initial-value: hsl(35 100% 50% / 1);
+    initial-value: hsl(25 95% 53% / 1); /* #F97316 */
 }
 
-@property --lum-color-dark-secondary {
+@property --lum-base-dark-color-text {
     syntax: "<color>";
     inherits: true;
-    initial-value: hsl(200 100% 50% / 1);
+    initial-value: hsl(230 100% 96% / 1); /* #6DF0DD */
 }
 
-@property --lum-color-dark-danger {
+@property --lum-base-dark-color-background {
     syntax: "<color>";
     inherits: true;
-    initial-value: hsl(0 100% 30% / 1);
-}
-
-@property --lum-color-dark-warning {
-    syntax: "<color>";
-    inherits: true;
-    initial-value: hsl(60 100% 40% / 1);
-}
-
-@property --lum-color-dark-success {
-    syntax: "<color>";
-    inherits: true;
-    initial-value: hsl(120 100% 30% / 1);
-}
-
-@property --lum-color-dark-info {
-    syntax: "<color>";
-    inherits: true;
-    initial-value: hsl(180 100% 30% / 1);
+    initial-value: hsl(224 25% 12% / 1); /* #141B26 */
 }
