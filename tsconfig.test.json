@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+      "allowImportingTsExtensions": true,
+      "noEmit": true
+  },
+  "include": ["**/*.test.ts", "./utils/test/**/*.utils.ts", "./setup-dom-for-tests.ts"],
+  "exclude": ["**/*.component.ts", "**/*.barrel.ts"]
+}

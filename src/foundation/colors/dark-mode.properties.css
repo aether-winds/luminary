@@ -1,0 +1,59 @@
+@property --lum-base-dark-color-primary-base {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: oklch(0.7 0.15 250 / 1);
+}
+
+@property --lum-base-dark-color-primary-inverse {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: oklch(0.7 0.15 70 / 1);
+}
+
+@property --lum-base-dark-color-surface-low {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(210 10% 5% / 1);
+}
+
+@property --lum-base-dark-color-surface-med {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(210 20% 10% / 1);
+}
+
+@property --lum-base-dark-color-surface-hgh {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(210 30% 15% / 1);
+}
+
+@property --lum-base-dark-color-text-base {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(210 0% 95% / 1);
+}
+
+@property --lum-base-dark-color-text-mute {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(210 0% 70% / 1);
+}
+
+@property --lum-base-dark-color-text-inverse {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(210 0% 5% / 1)
+}
+
+@property --lum-base-dark-color-border {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(0 0% 30% / 1);
+}
+
+@property --lum-base-dark-color-border-highlight {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: hsl(0 0% 60% / 1);
+}

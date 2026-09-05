@@ -1,0 +1,85 @@
+@import './foundation/colors.properties.css';
+@import './foundation/fonts.properties.css';
+@import './foundation/layout.properties.css';
+
+:root {
+    color-scheme: light dark;
+
+    --lum-base-color-primary-base: light-dark(
+        var(--lum-base-light-color-primary-base),
+        var(--lum-base-dark-color-primary-base)
+    );
+
+    --lum-base-color-primary-inverse: light-dark(
+        var(--lum-base-light-color-primary-inverse),
+        var(--lum-base-dark-color-primary-inverse)
+    );
+
+    --lum-base-color-surface-low: light-dark(
+        var(--lum-base-light-color-surface-low),
+        var(--lum-base-dark-color-surface-low)
+    );
+
+    --lum-base-color-surface-med: light-dark(
+        var(--lum-base-light-color-surface-med),
+        var(--lum-base-dark-color-surface-med)
+    );
+
+    --lum-base-color-surface-hgh: light-dark(
+        var(--lum-base-light-color-surface-hgh),
+        var(--lum-base-dark-color-surface-hgh)
+    );
+
+    --lum-base-color-text-base: light-dark(
+        var(--lum-base-light-color-text-base),
+        var(--lum-base-dark-color-text-base)
+    );
+
+    --lum-base-color-text-mute: light-dark(
+        var(--lum-base-light-color-text-mute),
+        var(--lum-base-dark-color-text-mute)
+    );
+
+    --lum-base-color-text-inverse: light-dark(
+        var(--lum-base-light-color-text-inverse),
+        var(--lum-base-dark-color-text-inverse)
+    );
+
+    --lum-base-color-border: light-dark(
+        var(--lum-base-light-color-border),
+        var(--lum-base-dark-color-border)
+    );
+
+    --lum-base-color-border-highlight: light-dark(
+        var(--lum-base-light-color-border-highlight),
+        var(--lum-base-dark-color-border-highlight)
+    );
+
+    --lum-base-color-surface-gradient: linear-gradient(
+        0deg,
+        var(--lum-base-color-surface-med),
+        var(--lum-base-color-surface-hgh)
+    );
+
+    font-family: "Hanken Grotesk", Arial, sans-serif;
+    font-optical-sizing: auto;  /* Remain readable at various display sizes */
+    font-size: var(--lum-font-size);
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: var(--lum-font-letter-spacing);
+    line-height: var(--lum-font-line-height);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: calc(1rem * pow(var(--lum-font-typescale), var(--lum-font-typescale-interval)));
+    letter-spacing: calc(var(--lum-font-letter-spacing) - (var(--lum-font-letter-spacing-interval) * var(--lum-font-typescale-interval)));
+    line-height: calc(var(--lum-font-line-height) - (var(--lum-font-typescale-interval) / 10));
+}
+
+body {
+    background-color: var(--lum-base-color-surface-low);
+    color: var(--lum-base-color-text-base);
+}

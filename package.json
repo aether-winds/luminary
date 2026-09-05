@@ -22,11 +22,18 @@
     "npm": ">=11"
   },
   "devDependencies": {
-    "@types/node": "^26.1.2",
-    "esbuild": "0.28.1"
+    "@types/node": "^26.4.1",
+    "@types/trusted-types": "2.0.7",
+    "esbuild": "0.28.1",
+    "linkedom": "0.18.13",
+    "nodemon": "3.1.14",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2"
   },
   "scripts": {
-    "dev": "./src/scripts/start-dev-server.sh"
+    "dev": "./scripts/start-dev-server.sh",
+    "test": "f() { node --experimental-test-coverage --import=tsx --import=./src/setup-dom-for-tests.ts --no-strip-types --test \"${1:-*/**/*.test.ts}\"; }; f",
+    "test:watch": "f() { nodemon --watch \"*/**/*.ts\" --ext ts --exec \"clear && npm run test -- ${1}\"; }; f"
   },
   "allowScripts": {
     "esbuild@0.28.1": true
