@@ -14,9 +14,7 @@ const luminaryTrustPolicy: CreateHTMLTrustPolicy = trustedTypes.createPolicy('lu
 });
 
 export class LumComponent extends HTMLElement {
-    protected sanitizeHTML(html: string): string | TrustedHTML {
-        return luminaryTrustPolicy.createHTML(html);
-    }
+    protected trustPolicy: CreateHTMLTrustPolicy = luminaryTrustPolicy;
 }
 
 export function registerComponent(componentClass: typeof LumComponent & LumComponentConstructor): void {

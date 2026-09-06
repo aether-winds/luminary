@@ -1,17 +1,9 @@
+import { LumComponent } from '../base-component/base-component.barrel.js';
 import css from './lum-color-scheme-picker.component.css';
 
-
-
-import { luminaryTrustPolicy } from '../../utils/luminary-trust-policy/luminary-trust-policy.js';
-
-export class LumColorPickerElement extends HTMLElement {
+export class LumColorPickerElement extends LumComponent {
+    static tagName: 'lum-color-schema-picker';
     private shadow: ShadowRoot;
-
-    static register(): void {
-        const TAG_NAME = 'color-schema-picker';
-        if (!customElements.get(TAG_NAME))
-            customElements.define(TAG_NAME, LumColorPickerElement);
-    }
 
     constructor() {
         super();
@@ -23,8 +15,6 @@ export class LumColorPickerElement extends HTMLElement {
     }
 
     public connectedCallback(): void {
-        this.shadow.innerHTML = luminaryTrustPolicy.createHTML(`
-            <div> hello world! </div>
-        `).toString();
+        this.shadow.innerHTML = this.sanitizeHTML(`<div> hello world! </div>`).toString();
     }
 }
