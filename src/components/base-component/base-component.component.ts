@@ -1,6 +1,7 @@
 import type { TrustedTypePolicy } from "trusted-types/lib/index.js";
 
-type CreateHTMLTrustPolicy = Pick<TrustedTypePolicy<{ createHTML: (input: string, ...args: unknown[]) => string; }>, "name" | "createHTML">;
+export type LumComponentType = typeof LumComponent & LumComponentConstructor;
+export type CreateHTMLTrustPolicy = Pick<TrustedTypePolicy<{ createHTML: (input: string, ...args: unknown[]) => string; }>, "name" | "createHTML">;
 
 interface LumComponentConstructor {
     new (...args: unknown[]): HTMLElement,
@@ -8,16 +9,20 @@ interface LumComponentConstructor {
 }
 
 const luminaryTrustPolicy: CreateHTMLTrustPolicy = trustedTypes.createPolicy('luminary-trust-policy', {
-    createHTML: (input: string, ...args: unknown[]): string => {
+    createHTML: (input: string, ..._: unknown[]): string => {
         return input;
     }
 });
 
 export class LumComponent extends HTMLElement {
-    protected trustPolicy: CreateHTMLTrustPolicy = luminaryTrustPolicy;
+    private trustPolicy: CreateHTMLTrustPolicy = luminaryTrustPolicy;
+
+    protected sanitizeHTML(html: string): TrustedHTML {
+        return this.trustPolicy.createHTML(html);
+    }
 }
 
-export function registerComponent(componentClass: typeof LumComponent & LumComponentConstructor): void {
+export function registerComponent(componentClass: LumComponentType): void {
     if (!customElements.get(componentClass.tagName)) {
         customElements.define(componentClass.tagName, componentClass);
     }

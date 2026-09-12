@@ -2,7 +2,7 @@ import { LumComponent } from '../base-component/base-component.barrel.js';
 import css from './lum-color-scheme-picker.component.css';
 
 export class LumColorPickerElement extends LumComponent {
-    static tagName: 'lum-color-schema-picker';
+    static tagName = 'lum-color-schema-picker';
     private shadow: ShadowRoot;
 
     constructor() {
@@ -15,6 +15,8 @@ export class LumColorPickerElement extends LumComponent {
     }
 
     public connectedCallback(): void {
-        this.shadow.innerHTML = this.sanitizeHTML(`<div> hello world! </div>`).toString();
+        this.shadow.innerHTML = this.sanitizeHTML(`
+            build the color picker component. unit testing and framework are all set now
+        `) as unknown as string;
     }
 }

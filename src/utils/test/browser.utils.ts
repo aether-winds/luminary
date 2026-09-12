@@ -1,31 +1,18 @@
 import { JSDOM } from 'jsdom';
-import { mockCustomElements } from './mocks/customElements.mock.js';
+import { trustedTypes as polyfill } from 'trusted-types';
+
+const dom: JSDOM = new JSDOM(`<!doctype html><html><body></body></html>`, { url: 'http://localhost' });
 
 // DOM Polyfills
-const dom = new JSDOM(`<!doctype html><html><body></body></html>`, { url: 'http://localhost' });
-const window = dom.window as unknown as Window & typeof globalThis;
-const document = window.document;
-const HTMLElement = window.HTMLElement;
+export const window = dom.window as unknown as Window & typeof globalThis;
+export const document = window.document;
+export const CSSStyleSheet = window.CSSStyleSheet;
+export const HTMLElement = window.HTMLElement;
+export const ShadowRoot = window.ShadowRoot;
 
 // Homegrown Mocks
-const customElements = mockCustomElements.mocked;
+export const customElements = window.customElements;
 
-// jsdom doesn't provide Trusted Types; components call trustedTypes.createPolicy()
-// at module load, so a pass-through stub is enough for tests.
-const trustedTypes = {
-    createPolicy: (
-        name: string,
-        rules: Record<string, (input: string, ...args: unknown[]) => string>,
-    ) => ({ name, ...rules }),
-} as unknown as typeof globalThis.trustedTypes;
-
-export {
-    window,
-    document,
-
-    trustedTypes,
-
-    HTMLElement,
-
-    customElements,
-};
+// Trust policies
+export const trustedTypes = polyfill as unknown as typeof globalThis.trustedTypes;
+export const TrustedHTML = polyfill.TrustedHTML as unknown as typeof polyfill.TrustedHTML;

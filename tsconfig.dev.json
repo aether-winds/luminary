@@ -7,6 +7,7 @@
         "declaration": true,
         "noUncheckedIndexedAccess": true,
         "exactOptionalPropertyTypes": true,
+        "inlineSourceMap": true,
 
         "noUnusedLocals": true,
         "noUnusedParameters": true,

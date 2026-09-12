@@ -1,3 +1,15 @@
-import * as Components from './components/components.barrel.js';
+import {
+    type LumComponent,
 
-console.log(Object.entries(Components));
+    LumColorPickerElement,
+
+    registerComponent,
+} from './components/components.barrel.js';
+
+const components: LumComponent[] = [
+    LumColorPickerElement
+];
+
+components.forEach((c: LumComponent) => {
+    registerComponent(c);
+});

@@ -1,1 +1,6 @@
-export { LumComponent, registerComponent } from './base-component.component.js';
+export {
+    type CreateHTMLTrustPolicy,
+    LumComponent,
+    type LumComponentType,
+    registerComponent
+} from './base-component.component.js';
