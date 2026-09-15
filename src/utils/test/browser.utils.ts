@@ -9,6 +9,8 @@ export const document = window.document;
 export const CSSStyleSheet = window.CSSStyleSheet;
 export const HTMLElement = window.HTMLElement;
 export const ShadowRoot = window.ShadowRoot;
+export const localStorage = window.localStorage;
+export const Event = window.Event;
 
 // Homegrown Mocks
 export const customElements = window.customElements;

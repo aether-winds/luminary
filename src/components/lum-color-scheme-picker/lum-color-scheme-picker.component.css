@@ -1,0 +1,8 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
+#selected-scheme {
+    text-align: center;
+}

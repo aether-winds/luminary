@@ -20,14 +20,12 @@
 @property --lum-base-light-color-surface-med {
     syntax: "<color>";
     inherits: true;
-    /* initial-value: oklch(0.96 0.03 60 / 1); */
     initial-value: oklch(0.90 0.025 60 / 1);
 }
 
 @property --lum-base-light-color-surface-hgh {
     syntax: "<color>";
     inherits: true;
-    /* initial-value: oklch(0.98 0.01 60 / 1); */
     initial-value: oklch(0.96 0.03 60 / 1);
 }
 
