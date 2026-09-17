@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "A lightweight, dependency-free web component library.",
   "type": "module",
+  "exports": {
+    ".": "./dist/luminary.components.js",
+    "./styles": "./dist/luminary.foundation.css"
+  },
   "contributors": [
     {
       "name": "Patrick Ortiz",
@@ -33,7 +37,8 @@
     "typescript": "7.0.2"
   },
   "scripts": {
-    "dev": "./scripts/start-dev-server.sh",
+    "build": "node ./esbuild.prod.mjs",
+    "dev": "node ./esbuild.dev.mjs",
     "test": "f() { node --experimental-test-coverage --import=tsx --import=./src/utils/test/loaders/register.ts --no-strip-types --test \"${1:-*/**/*.test.ts}\"; }; f",
     "test:watch": "f() { nodemon --watch \"*/**/*.ts\" --ext ts --exec \"clear && npm run test -- ${1}\"; }; f"
   },

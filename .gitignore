@@ -157,3 +157,4 @@ vite.config.ts.timestamp-*
 
 # Dev folders
 components/dev
+demo/assets
