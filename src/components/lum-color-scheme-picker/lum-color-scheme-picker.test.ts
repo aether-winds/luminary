@@ -18,12 +18,12 @@ async function createPicker(): Promise<LumColorPickerElement> {
     return await createElement(TAG_NAME) as unknown as LumColorPickerElement;
 }
 
-function getInput(element: LumColorPickerElement): HTMLInputElement {
-    return element.shadowRoot!.querySelector('#color-scheme-picker') as HTMLInputElement;
+function getInput(element: LumColorPickerElement): HTMLSelectElement {
+    return element.shadowRoot!.querySelector('#color-scheme-picker') as HTMLSelectElement;
 }
 
-function getSelectedSchemeLabel(element: LumColorPickerElement): Element {
-    return element.shadowRoot!.querySelector('#selected-scheme') as Element;
+function getInputSelectedOption(element: LumColorPickerElement): HTMLOptionElement {
+    return element.shadowRoot!.querySelector('#color-scheme-picker option:checked') as HTMLOptionElement;
 }
 
 function changePickerValue(element: LumColorPickerElement, value: string): void {
@@ -60,8 +60,7 @@ describe('LumColorPickerElement', () => {
         });
 
         it('should default to the "System" scheme when nothing is stored', () => {
-            strictEqual(getInput(element).getAttribute('value'), '1');
-            strictEqual(getSelectedSchemeLabel(element).innerHTML, 'System');
+            strictEqual(getInputSelectedOption(element).getAttribute('value'), 'light dark');
         });
 
         it('should set the page color-scheme to "light dark" by default', () => {
@@ -75,20 +74,18 @@ describe('LumColorPickerElement', () => {
 
     describe('restoring a stored preference', () => {
         it('should restore "Dark" when localStorage has the dark value', async () => {
-            localStorage.setItem(PREF_KEY, '0');
+            localStorage.setItem(PREF_KEY, 'dark');
             element = await createPicker();
 
-            strictEqual(getInput(element).getAttribute('value'), '0');
-            strictEqual(getSelectedSchemeLabel(element).innerHTML, 'Dark');
+            strictEqual(getInputSelectedOption(element).getAttribute('value'), 'dark');
             strictEqual(document.documentElement.style.getPropertyValue('color-scheme'), 'dark');
         });
 
         it('should restore "Light" when localStorage has the light value', async () => {
-            localStorage.setItem(PREF_KEY, '2');
+            localStorage.setItem(PREF_KEY, 'light');
             element = await createPicker();
 
-            strictEqual(getInput(element).getAttribute('value'), '2');
-            strictEqual(getSelectedSchemeLabel(element).innerHTML, 'Light');
+            strictEqual(getInputSelectedOption(element).getAttribute('value'), 'light');
             strictEqual(document.documentElement.style.getPropertyValue('color-scheme'), 'light');
         });
 
@@ -96,8 +93,7 @@ describe('LumColorPickerElement', () => {
             localStorage.setItem(PREF_KEY, 'garbage');
             element = await createPicker();
 
-            strictEqual(getInput(element).getAttribute('value'), '1');
-            strictEqual(getSelectedSchemeLabel(element).innerHTML, 'System');
+            strictEqual(getInputSelectedOption(element).getAttribute('value'), 'light dark');
             strictEqual(document.documentElement.style.getPropertyValue('color-scheme'), 'light dark');
         });
     });
@@ -113,26 +109,6 @@ describe('LumColorPickerElement', () => {
             strictEqual(label!.getAttribute('for'), 'color-scheme-picker');
             strictEqual(label!.textContent, 'Choose Color Scheme');
         });
-
-        it('should render a range input bounded from 0 to 2', () => {
-            const input = getInput(element);
-            ok(input);
-            strictEqual(input.getAttribute('type'), 'range');
-            strictEqual(input.getAttribute('min'), '0');
-            strictEqual(input.getAttribute('max'), '2');
-            strictEqual(input.getAttribute('list'), 'color-scheme-options');
-        });
-
-        it('should render a datalist with dark, system, and light options', () => {
-            const options = element.shadowRoot!.querySelectorAll('#color-scheme-options option');
-            strictEqual(options.length, 3);
-            strictEqual(options[0].getAttribute('value'), '0');
-            strictEqual(options[0].getAttribute('label'), 'dark');
-            strictEqual(options[1].getAttribute('value'), '1');
-            strictEqual(options[1].getAttribute('label'), 'system');
-            strictEqual(options[2].getAttribute('value'), '2');
-            strictEqual(options[2].getAttribute('label'), 'light');
-        });
     });
 
     describe('changing the picker value', () => {
@@ -140,29 +116,25 @@ describe('LumColorPickerElement', () => {
             element = await createPicker();
         });
 
-        it('should switch to "Dark": persist it, update the page scheme, and update the label', () => {
-            changePickerValue(element, '0');
+        it('should switch to "Dark": persist it, and update the page scheme', () => {
+            changePickerValue(element, 'dark');
 
-            strictEqual(localStorage.getItem(PREF_KEY), '0');
+            strictEqual(localStorage.getItem(PREF_KEY), 'dark');
             strictEqual(document.documentElement.style.getPropertyValue('color-scheme'), 'dark');
-            strictEqual(getSelectedSchemeLabel(element).innerHTML, 'Dark');
         });
 
-        it('should switch to "Light": persist it, update the page scheme, and update the label', () => {
-            changePickerValue(element, '2');
+        it('should switch to "Light": persist it, and update the page scheme', () => {
+            changePickerValue(element, 'light');
 
-            strictEqual(localStorage.getItem(PREF_KEY), '2');
+            strictEqual(localStorage.getItem(PREF_KEY), 'light');
             strictEqual(document.documentElement.style.getPropertyValue('color-scheme'), 'light');
-            strictEqual(getSelectedSchemeLabel(element).innerHTML, 'Light');
         });
 
-        it('should switch to "System": clear localStorage, update the page scheme, and update the label', () => {
-            changePickerValue(element, '0');
-            changePickerValue(element, '1');
+        it('should switch to "System": clear localStorage, and update the page scheme', () => {
+            changePickerValue(element, 'light dark');
 
             strictEqual(localStorage.getItem(PREF_KEY), null);
             strictEqual(document.documentElement.style.getPropertyValue('color-scheme'), 'light dark');
-            strictEqual(getSelectedSchemeLabel(element).innerHTML, 'System');
         });
 
         it('should treat any unrecognized value as "System"', () => {
@@ -171,14 +143,6 @@ describe('LumColorPickerElement', () => {
 
             strictEqual(localStorage.getItem(PREF_KEY), null);
             strictEqual(document.documentElement.style.getPropertyValue('color-scheme'), 'light dark');
-            strictEqual(getSelectedSchemeLabel(element).innerHTML, 'System');
-        });
-
-        it('should not update the input value attribute since it only reacts to the label span', () => {
-            changePickerValue(element, '0');
-            strictEqual(getInput(element).getAttribute('value'), '1');
         });
     });
-
-    // TODO [Plan] Start creating tickets for these items instead of sprinkling them all over the code.
 });

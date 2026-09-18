@@ -1,35 +1,21 @@
 import { LumComponent } from '../base-component/base-component.barrel.js';
 import css from './lum-color-scheme-picker.component.css';
 
-enum ColorScheme {
-    Dark = '0',
-    System = '1',
-    Light = '2',
+enum SchemeOption {
+    System = 'light dark',
+    Light = 'light',
+    Dark = 'dark',
 }
-
-const ColorSchemeDisplay = {
-    [ColorScheme.Dark]: 'Dark',
-    [ColorScheme.System]: 'System',
-    [ColorScheme.Light]: 'Light',
-}
-
-const ColorSchemePropertyValue = {
-    [ColorScheme.Dark]: 'dark',
-    [ColorScheme.System]: 'light dark',
-    [ColorScheme.Light]: 'light',
-}
-
-const ColorSchemeSaveValue = {
-    [ColorScheme.Dark]: ColorScheme.Dark,
-    [ColorScheme.System]: undefined,
-    [ColorScheme.Light]: ColorScheme.Light,
-};
 
 export class LumColorPickerElement extends LumComponent {
     static tagName = 'lum-color-schema-picker';
     readonly prefLocation: string = 'userPreference.color.scheme';
     private shadow: ShadowRoot;
-    private userPreference: ColorScheme;
+    private userPreference: SchemeOption | null;
+
+    public get value(): string | undefined {
+        return this.userPreference?.toString();
+    }
 
     constructor() {
         super();
@@ -40,7 +26,7 @@ export class LumColorPickerElement extends LumComponent {
         this.shadow.adoptedStyleSheets = [sheet];
 
         this.userPreference = this.getUserPreference();
-        this.changePageColorScheme(this.userPreference);
+        this.changePageColorScheme(this.userPreference ?? SchemeOption.System);
 
         this.shadow.addEventListener('change', this.handlePickerChange.bind(this));
     }
@@ -48,56 +34,45 @@ export class LumColorPickerElement extends LumComponent {
     public connectedCallback(): void {
         this.shadow.innerHTML = this.sanitizeHTML(`
             <label for="color-scheme-picker">Choose Color Scheme</label>
-            <input type="range" id="color-scheme-picker" list="color-scheme-options" min="0" max="2" value="${this.userPreference}" />
-            <span id="selected-scheme">${ColorSchemeDisplay[this.userPreference]}</span>
-            <datalist id="color-scheme-options">
-                <option value="0" label="dark"></option>
-                <option value="1" label="system"></option>
-                <option value="2" label="light"></option>
-            </datalist>
+            <select id="color-scheme-picker">
+                <option value="light dark" ${this.userPreference === SchemeOption.System ? 'selected' : ''}>System</option>
+                <option value="light" ${this.userPreference === SchemeOption.Light ? 'selected' : ''}>Light</option>
+                <option value="dark" ${this.userPreference === SchemeOption.Dark ? 'selected' : ''}>Dark</option>
+            </select>
         `) as unknown as string;
     }
 
-    private getUserPreference(): ColorScheme {
-        switch(localStorage.getItem('userPreference.color.scheme')) {
-            case ColorScheme.Dark:  return ColorScheme.Dark;
-            case ColorScheme.Light: return ColorScheme.Light;
-            default:                return ColorScheme.System;
-        }
+    private getUserPreference(): SchemeOption | null {
+        return localStorage.getItem(this.prefLocation) as SchemeOption | null;
     }
 
     private handlePickerChange(event: Event): void {
-        let colorScheme: ColorScheme;
-
-        switch((event.target as HTMLInputElement).value) {
-            case ColorScheme.Dark:  colorScheme = ColorScheme.Dark;     break;
-            case ColorScheme.Light: colorScheme = ColorScheme.Light;    break;
-            default:                colorScheme = ColorScheme.System;   break;
-        }
+        const colorScheme: SchemeOption = (event.target as HTMLSelectElement).value as SchemeOption;
 
         this.saveUserPreference(colorScheme);
         this.changePageColorScheme(colorScheme);
-        this.updateSelectedSchemeLabel(colorScheme);
     }
 
-    private changePageColorScheme(colorScheme: ColorScheme): void {
-        document.documentElement.style.setProperty('color-scheme', ColorSchemePropertyValue[colorScheme]);
-    }
-
-    private saveUserPreference(colorScheme: ColorScheme): void {
+    private changePageColorScheme(colorScheme: SchemeOption): void {
         switch(colorScheme) {
-            case ColorScheme.Dark:
-            case ColorScheme.Light:
-                localStorage.setItem(this.prefLocation, ColorSchemeSaveValue[colorScheme]);
+            case SchemeOption.Dark:
+            case SchemeOption.Light:
+                document.documentElement.style.setProperty('color-scheme', colorScheme);
+                break;
+            default:
+                document.documentElement.style.setProperty('color-scheme', SchemeOption.System);
+        }
+    }
+
+    private saveUserPreference(colorScheme: SchemeOption): void {
+        switch(colorScheme) {
+            case SchemeOption.Dark:
+            case SchemeOption.Light:
+                localStorage.setItem(this.prefLocation, colorScheme);
                 break;
             default:
                 localStorage.removeItem(this.prefLocation);
                 break;
         }
-    }
-
-    private updateSelectedSchemeLabel(colorScheme: ColorScheme): void {
-        const element = this.shadow.querySelector('#selected-scheme')
-        if (element) element.innerHTML = this.sanitizeHTML(ColorSchemeDisplay[colorScheme]) as unknown as string;
     }
 }
